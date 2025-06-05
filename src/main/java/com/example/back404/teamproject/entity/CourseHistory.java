@@ -1,6 +1,6 @@
-package com.example.korea_sleepTech_PT.teamproject.entity;
+package com.example.back404.teamproject.entity;
 
-import com.example.korea_sleepTech_PT.teamproject.entity.datatime.BaseTimeEntity;
+import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

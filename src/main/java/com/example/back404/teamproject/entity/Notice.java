@@ -1,6 +1,6 @@
-package com.example.korea_sleepTech_PT.teamproject.entity;
+package com.example.back404.teamproject.entity;
 
-import com.example.korea_sleepTech_PT.teamproject.entity.datatime.BaseTimeEntity;
+import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class Notice extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "school_id")
-    private School school;
+    private com.example.back404.teamproject.entity.School school;
 
     private String title;
     private String content;
