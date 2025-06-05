@@ -1,13 +1,13 @@
-package com.example.korea_sleepTech_PT;
+package com.example.__back;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KoreaSleepTechPtApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KoreaSleepTechPtApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
