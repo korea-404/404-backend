@@ -37,15 +37,13 @@ public class CourseRegistration extends BaseTimeEntity {
     @Column(name = "course_registration_approval_status", nullable = false)
     private CourseApprovalStatus approvalStatus = CourseApprovalStatus.PENDING;
 
-    @Column(name = "course_registration_approval_date") // 승인/거절 시점에만 값이 할당되므로 nullable
+    @Column(name = "course_registration_approval_date")
     private LocalDateTime approvalDate;
 
-    // Enum 이름 명확화
     public enum CourseApprovalStatus {
         PENDING, APPROVED, REJECTED
     }
 
-    //== 비즈니스 로직 (상태 변경 메서드) ==//
 
     // 수강 신청을 승인
     public void approve() {
@@ -53,7 +51,7 @@ public class CourseRegistration extends BaseTimeEntity {
             throw new IllegalStateException("대기 상태인 수강 신청만 승인할 수 있습니다.");
         }
         this.approvalStatus = CourseApprovalStatus.APPROVED;
-        this.approvalDate = LocalDateTime.now(); // 승인 시점에 날짜 기록
+        this.approvalDate = LocalDateTime.now();
     }
 
     // 수강 신청을 거절
@@ -62,6 +60,6 @@ public class CourseRegistration extends BaseTimeEntity {
             throw new IllegalStateException("대기 상태인 수강 신청만 거절할 수 있습니다.");
         }
         this.approvalStatus = CourseApprovalStatus.REJECTED;
-        this.approvalDate = LocalDateTime.now(); // 거절 시점에 날짜 기록
+        this.approvalDate = LocalDateTime.now();
     }
 }
