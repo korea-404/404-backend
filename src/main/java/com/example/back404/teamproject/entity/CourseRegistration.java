@@ -7,59 +7,37 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "course_registration") // DB 표준에 맞춰 _ 사용
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CourseRegistration extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "registration_id")
-    private Long id;
+    private Long registrationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lecture_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    @Column(name = "course_registration_academic_year", nullable = false)
     private Integer academicYear;
-
-    @Column(name = "course_registration_semester", nullable = false)
     private String semester;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    @Column(name = "course_registration_approval_status", nullable = false)
-    private CourseApprovalStatus approvalStatus = CourseApprovalStatus.PENDING;
+    private ApprovalStatus approvalStatus = ApprovalStatus.PENDING;
 
-    @Column(name = "course_registration_approval_date")
-    private LocalDateTime approvalDate;
+    @Builder.Default
+    private LocalDateTime approvalDate = LocalDateTime.now();
 
-    public enum CourseApprovalStatus {
+    public enum ApprovalStatus {
         PENDING, APPROVED, REJECTED
     }
-
-
-    // 수강 신청을 승인
-    public void approve() {
-        if (this.approvalStatus != CourseApprovalStatus.PENDING) {
-            throw new IllegalStateException("대기 상태인 수강 신청만 승인할 수 있습니다.");
-        }
-        this.approvalStatus = CourseApprovalStatus.APPROVED;
-        this.approvalDate = LocalDateTime.now();
-    }
-
-    // 수강 신청을 거절
-    public void reject() {
-        if (this.approvalStatus != CourseApprovalStatus.PENDING) {
-            throw new IllegalStateException("대기 상태인 수강 신청만 거절할 수 있습니다.");
-        }
-        this.approvalStatus = CourseApprovalStatus.REJECTED;
-        this.approvalDate = LocalDateTime.now();
-    }
 }
+
