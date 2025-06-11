@@ -16,6 +16,4 @@ public interface RegexConstants {
 
     // 사용자 이름: 한글 2~10자
     public static final String KOREAN_NAME = "^[가-힣]{2,10}$";
-
-    // ..... //
 }
