@@ -1,4 +1,4 @@
-package com.example.__back;
+package com.example.back404;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
