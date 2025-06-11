@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.CourseApprovalStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +8,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "course_registration") // DB 표준에 맞춰 _ 사용
+@Table(name = "course_registration")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -39,11 +40,6 @@ public class CourseRegistration extends BaseTimeEntity {
 
     @Column(name = "course_registration_approval_date")
     private LocalDateTime approvalDate;
-
-    public enum CourseApprovalStatus {
-        PENDING, APPROVED, REJECTED
-    }
-
 
     // 수강 신청을 승인
     public void approve() {

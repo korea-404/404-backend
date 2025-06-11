@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.TeacherStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,13 +43,6 @@ public class Teacher extends BaseTimeEntity {
     @Column(name = "teacher_status", nullable = false)
     private TeacherStatus status = TeacherStatus.PENDING;
 
-    public enum TeacherStatus {
-        PENDING,
-        APPROVED,
-        ON_LEAVE,
-        RETIRED
-    }
-
 
     // 교사의 개인 정보(이메일, 전화번호, 담당 과목)를 수정
     public void updateInfo(String email, String phoneNumber, String subject) {
@@ -59,7 +53,6 @@ public class Teacher extends BaseTimeEntity {
 
     // 비밀번호를 변경
     public void changePassword(String newPassword) {
-        // 실제로는 암호화 로직을 포함해야 합니다.
         this.password = newPassword;
     }
 

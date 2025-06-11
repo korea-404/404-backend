@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.TargetAudience;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,13 +40,6 @@ public class Notice extends BaseTimeEntity {
 
     @Column(name = "notice_end_date", nullable = false)
     private LocalDate endDate;
-
-    public enum TargetAudience {
-        ALL,
-        STUDENT,
-        TEACHER
-    }
-
 
     // 공지사항 내용을 수정
     public void update(String title, String content, TargetAudience targetAudience, LocalDate startDate, LocalDate endDate) {

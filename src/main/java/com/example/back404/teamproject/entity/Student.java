@@ -1,5 +1,7 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
+import com.example.back404.teamproject.common.constants.enums.StudentStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -56,17 +58,6 @@ public class Student extends BaseTimeEntity {
 
     @Column(name = "student_admission_year", nullable = false)
     private Integer admissionYear;
-
-    public enum Affiliation {
-        LIBERAL_ARTS, NATURAL_SCIENCES
-    }
-
-    public enum StudentStatus {
-        PENDING,
-        APPROVED,
-        ON_LEAVE,
-        GRADUATED
-    }
 
     // 학생의 개인 정보(이메일, 전화번호)를 수정
     public void updateInfo(String email, String phoneNumber) {

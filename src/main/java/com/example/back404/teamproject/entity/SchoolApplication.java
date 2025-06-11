@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.SchoolApplicationStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,11 +39,6 @@ public class SchoolApplication extends BaseTimeEntity {
 
     @Column(name = "school_admin_email", nullable = false)
     private String schoolAdminEmail;
-
-    public enum SchoolApplicationStatus {
-        PENDING, APPROVED, REJECTED
-    }
-
 
     // 신청을 승인 상태로 변경
     public void approve() {

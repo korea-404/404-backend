@@ -1,5 +1,7 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
+import com.example.back404.teamproject.common.constants.enums.SubjectCategory;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,15 +41,6 @@ public class Subject extends BaseTimeEntity {
 
     @Column(name = "subject_max_enrollment", nullable = false)
     private Integer maxEnrollment;
-
-    public enum Affiliation {
-        LIBERAL_ARTS, NATURAL_SCIENCES
-    }
-
-    public enum SubjectCategory {
-        COMPLETED,    // 이수 과목
-        NOT_SELECTED  // 미선택 과목 (과목 개설용 템플릿)
-    }
 
 
     // 과목의 기본 정보(과목명, 대상 학년, 학기, 최대 수강 인원)를 수정
