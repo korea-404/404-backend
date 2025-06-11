@@ -26,7 +26,7 @@ public class Notice extends BaseTimeEntity {
     @Column(name = "notice_title", nullable = false)
     private String title;
 
-    @Lob // TEXT 타입 매핑을 위해 @Lob 추가
+    @Lob
     @Column(name = "notice_content", nullable = false)
     private String content;
 
@@ -41,12 +41,11 @@ public class Notice extends BaseTimeEntity {
     private LocalDate endDate;
 
     public enum TargetAudience {
-        ALL,     // 전체
-        STUDENT, // 학생
-        TEACHER  // 교사
+        ALL,
+        STUDENT,
+        TEACHER
     }
 
-    //== 비즈니스 로직 (정보 변경 메서드) ==//
 
     // 공지사항 내용을 수정
     public void update(String title, String content, TargetAudience targetAudience, LocalDate startDate, LocalDate endDate) {

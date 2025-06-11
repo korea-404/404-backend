@@ -43,11 +43,8 @@ public class Lecture extends BaseTimeEntity {
     @Column(name = "lecture_max_enrollment", nullable = false)
     private Integer maxEnrollment;
 
-    //== 비즈니스 로직 (정보 변경 메서드) ==//
 
-    /*
-     * 강의의 정보(담당 교사, 시간, 최대 수강 인원)를 수정합니다.
-     */
+     // 강의의 정보(담당 교사, 시간, 최대 수강 인원)를 수정
     public void updateInfo(Teacher teacher, DayOfWeek dayOfWeek, int period, int maxEnrollment) {
         this.teacher = teacher;
         this.dayOfWeek = dayOfWeek;

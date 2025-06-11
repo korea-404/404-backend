@@ -40,18 +40,15 @@ public class Subject extends BaseTimeEntity {
     @Column(name = "subject_max_enrollment", nullable = false)
     private Integer maxEnrollment;
 
-    // 계열 Enum
     public enum Affiliation {
         LIBERAL_ARTS, NATURAL_SCIENCES
     }
 
-    // 카테고리 Enum (이름 명확화)
     public enum SubjectCategory {
         COMPLETED,    // 이수 과목
         NOT_SELECTED  // 미선택 과목 (과목 개설용 템플릿)
     }
 
-    //== 비즈니스 로직 (정보 및 상태 변경 메서드) ==//
 
     // 과목의 기본 정보(과목명, 대상 학년, 학기, 최대 수강 인원)를 수정
     public void updateInfo(String subjectName, String grade, String semester, int maxEnrollment) {

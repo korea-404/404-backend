@@ -43,7 +43,6 @@ public class SchoolApplication extends BaseTimeEntity {
         PENDING, APPROVED, REJECTED
     }
 
-    //== 비즈니스 로직 (정보 및 상태 변경 메서드) ==//
 
     // 신청을 승인 상태로 변경
     public void approve() {

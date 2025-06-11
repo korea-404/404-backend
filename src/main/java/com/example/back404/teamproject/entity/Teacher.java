@@ -42,15 +42,13 @@ public class Teacher extends BaseTimeEntity {
     @Column(name = "teacher_status", nullable = false)
     private TeacherStatus status = TeacherStatus.PENDING;
 
-    // Enum 이름을 TeacherStatus로 명확화
     public enum TeacherStatus {
-        PENDING,  // 승인 대기
-        APPROVED, // 승인 (재직)
-        ON_LEAVE, // 휴직
-        RETIRED   // 퇴직
+        PENDING,
+        APPROVED,
+        ON_LEAVE,
+        RETIRED
     }
 
-    //== 비즈니스 로직 (정보 및 상태 변경 메서드) ==//
 
     // 교사의 개인 정보(이메일, 전화번호, 담당 과목)를 수정
     public void updateInfo(String email, String phoneNumber, String subject) {

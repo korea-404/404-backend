@@ -61,15 +61,12 @@ public class Student extends BaseTimeEntity {
         LIBERAL_ARTS, NATURAL_SCIENCES
     }
 
-    // 학생의 상태를 명확하게 표현하도록 Enum을 수정
     public enum StudentStatus {
-        PENDING,   // 승인 대기
-        APPROVED,  // 재학
-        ON_LEAVE,  // 휴학
-        GRADUATED  // 졸업
+        PENDING,
+        APPROVED,
+        ON_LEAVE,
+        GRADUATED
     }
-
-    //== 비즈니스 로직 (정보 및 상태 변경 메서드) ==//
 
     // 학생의 개인 정보(이메일, 전화번호)를 수정
     public void updateInfo(String email, String phoneNumber) {
@@ -79,7 +76,6 @@ public class Student extends BaseTimeEntity {
 
     // 비밀번호를 변경
     public void changePassword(String newPassword) {
-        // 실제로는 암호화 로직이 포함되어야 합니다.
         this.password = newPassword;
     }
 
@@ -115,7 +111,7 @@ public class Student extends BaseTimeEntity {
     // 학생을 '졸업' 상태로 변경
     public void graduate() {
         if (this.status == StudentStatus.GRADUATED) {
-            return; // 이미 졸업한 경우 변경하지 않음
+            return;
         }
         this.status = StudentStatus.GRADUATED;
     }

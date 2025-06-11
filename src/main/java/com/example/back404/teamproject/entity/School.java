@@ -48,7 +48,6 @@ public class School extends BaseTimeEntity {
     @Column(name = "application_limited_day", nullable = false)
     private LocalDate applicationLimitedDay;
 
-    //== 비즈니스 로직 (정보 변경 메서드) ==//
 
     // 학교의 기본 정보(주소, 연락처, 관리자 이름 등)를 수정
     public void updateSchoolInfo(String address, String contactNumber, String adminName, String adminPhoneNumber, String adminEmail) {
@@ -61,7 +60,6 @@ public class School extends BaseTimeEntity {
 
     // 학교 관리자 비밀번호를 변경
     public void changePassword(String newPassword) {
-        // 실제로는 암호화 로직이 포함될 수 있습니다.
         this.schoolPassword = newPassword;
     }
 

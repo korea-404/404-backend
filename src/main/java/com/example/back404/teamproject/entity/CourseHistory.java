@@ -14,7 +14,7 @@ public class CourseHistory extends BaseTimeEntity {
 
     @Id
     @Column(name = "course_history_id")
-    private Integer id; // DDL에 AUTO_INCREMENT가 없으므로 @GeneratedValue 제거
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
@@ -30,10 +30,9 @@ public class CourseHistory extends BaseTimeEntity {
     @Column(name = "course_history_semester", nullable = false)
     private String semester;
 
-    @Column(name = "course_history_score") // 성적은 나중에 입력될 수 있으므로 nullable
+    @Column(name = "course_history_score")
     private String score;
 
-    //== 비즈니스 로직 (정보 변경 메서드) ==//
 
     // 성적을 갱신
     public void updateScore(String newScore) {
