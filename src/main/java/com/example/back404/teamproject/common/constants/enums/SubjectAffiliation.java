@@ -3,13 +3,13 @@ package com.example.back404.teamproject.common.constants.enums;
 import lombok.Getter;
 
 @Getter
-public enum SubjectCategory {
-    COMPLETED("선택 과목"),
-    NOTSELECTED("미선택 과목");
+public enum SubjectAffiliation {
+    liberal_arts("인문계열"),
+    natural_sciences("자연계열");
 
     private final String description;
 
-    SubjectCategory(String description) {
+    SubjectAffiliation(String description) {
         this.description = description;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.Affiliation;
-import com.example.back404.teamproject.common.constants.enums.SubjectCategory;
+import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
+import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +9,7 @@ import lombok.*;
 @Entity
 @Table(name = "subject")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -16,11 +17,11 @@ public class Subject extends BaseTimeEntity {
 
     @Id
     @Column(name = "subject_id")
-    private String id;
+    private String subjectId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id", nullable = false)
-    private School school;
+    private School schoolId;
 
     @Column(name = "subject_name", nullable = false)
     private String subjectName;
@@ -33,31 +34,12 @@ public class Subject extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "subject_affiliation", nullable = false)
-    private Affiliation affiliation;
+    private SubjectAffiliation affiliation;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "subject_category", nullable = false)
-    private SubjectCategory category;
+    @Column(name = "subject_status", nullable = false)
+    private SubjectStatus status;
 
     @Column(name = "subject_max_enrollment", nullable = false)
     private Integer maxEnrollment;
-
-
-    // 과목의 기본 정보(과목명, 대상 학년, 학기, 최대 수강 인원)를 수정
-    public void updateInfo(String subjectName, String grade, String semester, int maxEnrollment) {
-        this.subjectName = subjectName;
-        this.grade = grade;
-        this.semester = semester;
-        this.maxEnrollment = maxEnrollment;
-    }
-
-    // 과목을 '이수 과목' 상태로 선택(활성화)
-    public void select() {
-        this.category = SubjectCategory.COMPLETED;
-    }
-
-    // 과목을 '미선택' 상태로 변경
-    public void deselect() {
-        this.category = SubjectCategory.NOT_SELECTED;
-    }
 }
