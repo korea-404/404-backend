@@ -26,7 +26,10 @@ public class ApiMappingPattern {
     // 관리자 관련
     public static final String ADMIN_API = "/api/v1/admins";
 
-    // 강의, 과목 관련
+    // 과목 관련
+    public static final String SUBJECT_API = "/api/v1/subject";
+
+    // 강의 관련
     public static final String LECTURE_API = "/api/v1/lectures";
 
     // 시간표 관련

@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.Affiliation;
+import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
 import com.example.back404.teamproject.common.constants.enums.StudentStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -50,7 +50,7 @@ public class Student extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "student_affiliation", nullable = false)
-    private Affiliation affiliation;
+    private SubjectAffiliation affiliation;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "student_status", nullable = false)
