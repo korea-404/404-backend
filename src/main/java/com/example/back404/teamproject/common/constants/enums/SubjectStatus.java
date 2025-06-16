@@ -9,7 +9,6 @@ public enum SubjectStatus {
     rejected("승인 거절");
 
     private final String description;
-
     SubjectStatus(String description) {
         this.description = description;
     }

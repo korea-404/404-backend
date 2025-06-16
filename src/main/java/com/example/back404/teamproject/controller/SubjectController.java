@@ -2,10 +2,11 @@ package com.example.back404.teamproject.controller;
 
 import com.example.back404.teamproject.common.constants.ApiMappingPattern;
 import com.example.back404.teamproject.common.constants.ResponseDto;
-import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
 import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
 import com.example.back404.teamproject.dto.lectures.response.LectureResponseDto;
 import com.example.back404.teamproject.dto.subjects.request.SubjectApprovalRequestDto;
+import com.example.back404.teamproject.dto.subjects.request.SubjectStatusUpdateDto;
 import com.example.back404.teamproject.dto.subjects.response.SubjectDetailDto;
 import com.example.back404.teamproject.dto.subjects.response.SubjectListDto;
 import com.example.back404.teamproject.service.SubjectService;
@@ -26,8 +27,8 @@ public class SubjectController {
 
     // 과목 전체 목록 조회
     @GetMapping
-    public ResponseEntity<ResponseDto<List<SubjectListDto>>> getSubjectList() {
-        return ResponseEntity.ok(subjectService.getAllSubjects(SubjectAffiliation affiliation));
+    public ResponseEntity<ResponseDto<List<SubjectListDto>>> getSubjectList(@RequestParam(required = false) Affiliation affiliation) {
+        return ResponseEntity.ok(subjectService.getAllSubjects(affiliation));
     }
 
     // 과목 상세 정보 조회
@@ -37,9 +38,9 @@ public class SubjectController {
     }
 
     // 등록 과목을 '대기/승인/거절' 상태로 변경
-    @PutMapping("/{subjectId}/status/{newStatus}")
-    public ResponseEntity<ResponseDto<SubjectDetailDto>> updateStatus(@PathVariable String subjectId, @PathVariable SubjectStatus newStatus) {
-        return ResponseEntity.ok(subjectService.updateSubjectStatus(subjectId, newStatus));
+    @PutMapping("/{subjectId}/status")
+    public ResponseEntity<ResponseDto<SubjectDetailDto>> updateStatus(@PathVariable String subjectId, @RequestBody SubjectStatusUpdateDto requestDto) {
+        return ResponseEntity.ok(subjectService.updateSubjectStatus(subjectId, requestDto.getStatus()));
     }
 
     // 등록 과목을 승인 거절
@@ -54,4 +55,5 @@ public class SubjectController {
         ResponseDto<LectureResponseDto> response = subjectService.approveSubjectAndCreateLecture(subjectId, requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 }

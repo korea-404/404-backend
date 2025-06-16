@@ -48,23 +48,23 @@ public class School extends BaseTimeEntity {
     private LocalDate applicationLimitedDay;
 
 
-    // 학교의 기본 정보(주소, 연락처, 관리자 이름 등)를 수정
-    public void updateSchoolInfo(String address, String contactNumber, String adminName, String adminPhoneNumber, String adminEmail) {
-        this.schoolAddress = address;
-        this.schoolContactNumber = contactNumber;
-        this.schoolAdminName = adminName;
-        this.schoolAdminPhoneNumber = adminPhoneNumber;
-        this.schoolAdminEmail = adminEmail;
-    }
-
-    // 학교 관리자 비밀번호를 변경
-    public void changePassword(String newPassword) {
-        this.schoolPassword = newPassword;
-    }
-
-    // 수강 신청 기간을 수정
-    public void updateApplicationPeriod(LocalDate startDate, LocalDate limitedDate) {
-        this.applicationStartedDay = startDate;
-        this.applicationLimitedDay = limitedDate;
-    }
+//    // 학교의 기본 정보(주소, 연락처, 관리자 이름 등)를 수정
+//    public void updateSchoolInfo(String address, String contactNumber, String adminName, String adminPhoneNumber, String adminEmail) {
+//        this.schoolAddress = address;
+//        this.schoolContactNumber = contactNumber;
+//        this.schoolAdminName = adminName;
+//        this.schoolAdminPhoneNumber = adminPhoneNumber;
+//        this.schoolAdminEmail = adminEmail;
+//    }
+//
+//    // 학교 관리자 비밀번호를 변경
+//    public void changePassword(String newPassword) {
+//        this.schoolPassword = newPassword;
+//    }
+//
+//    // 수강 신청 기간을 수정
+//    public void updateApplicationPeriod(LocalDate startDate, LocalDate limitedDate) {
+//        this.applicationStartedDay = startDate;
+//        this.applicationLimitedDay = limitedDate;
+//    }
 }

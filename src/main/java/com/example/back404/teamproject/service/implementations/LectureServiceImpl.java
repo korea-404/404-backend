@@ -1,10 +1,12 @@
 package com.example.back404.teamproject.service.implementations;
 
 import com.example.back404.teamproject.common.constants.ResponseDto;
+import com.example.back404.teamproject.common.constants.ResponseMessage;
 import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
 import com.example.back404.teamproject.dto.lectures.request.LectureUpdateRequestDto;
 import com.example.back404.teamproject.dto.lectures.response.LectureResponseDto;
 import com.example.back404.teamproject.entity.Lecture;
+import com.example.back404.teamproject.entity.Subject;
 import com.example.back404.teamproject.entity.Teacher;
 import com.example.back404.teamproject.repository.LectureRepository;
 import com.example.back404.teamproject.repository.TeacherRepository;
@@ -26,25 +28,25 @@ public class LectureServiceImpl implements LectureService {
     public ResponseDto<LectureResponseDto> updateLecture(Long lectureId, LectureUpdateRequestDto requestDto) {
         try {
             Lecture lecture = lectureRepository.findById(lectureId)
-                    .orElseThrow(() -> new EntityNotFoundException("강의를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_LECTURE));
             Teacher teacher = teacherRepository.findById(requestDto.getTeacherId())
-                    .orElseThrow(() -> new EntityNotFoundException("선생님을 찾을 수 없습니다."));
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_TEACHER));
 
-            lecture.setTeacher(teacher);
+            lecture.setTeacherId(teacher);
             lecture.setDayOfWeek(requestDto.getDayOfWeek());
             lecture.setPeriod(requestDto.getPeriod());
             lecture.setMaxEnrollment(requestDto.getMaxEnrollment());
 
             LectureResponseDto responseData = LectureResponseDto.builder()
                     .lectureId(lecture.getLectureId())
-                    .subjectName(lecture.getSubject().getSubjectName())
-                    .teacherName(lecture.getTeacher().getTeacherName())
+                    .subjectName(lecture.getSubjectId().getSubjectName())
+                    .teacherName(lecture.getTeacherId().getTeacherName())
                     .dayOfWeek(lecture.getDayOfWeek())
                     .period(lecture.getPeriod())
                     .allowedGrade(lecture.getAllowedGrade())
                     .build();
 
-            return ResponseDto.setSuccess("강의 정보가 성공적으로 수정되었습니다.", responseData);
+            return ResponseDto.setSuccess(ResponseMessage.UPDATE_LECTURE_SUCCESS, responseData);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }
@@ -54,13 +56,13 @@ public class LectureServiceImpl implements LectureService {
     public ResponseDto<?> deleteLecture(Long lectureId) {
         try {
             Lecture lecture = lectureRepository.findById(lectureId)
-                    .orElseThrow(() -> new EntityNotFoundException("강의를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_LECTURE));
 
-            lecture.getSubject().updateStatus(SubjectStatus.pending);
-
+            Subject subject = lecture.getSubjectId();
+            subject.setStatus(SubjectStatus.pending);
             lectureRepository.delete(lecture);
 
-            return ResponseDto.setSuccess("강의가 성공적으로 삭제되었습니다.", null);
+            return ResponseDto.setSuccess(ResponseMessage.DELETE_LECTURE_SUCCESS, null);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }

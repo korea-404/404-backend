@@ -2,7 +2,7 @@ package com.example.back404.teamproject.service.implementations;
 
 import com.example.back404.teamproject.common.constants.ResponseDto;
 import com.example.back404.teamproject.common.constants.ResponseMessage;
-import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
 import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
 import com.example.back404.teamproject.dto.lectures.response.LectureResponseDto;
 import com.example.back404.teamproject.dto.subjects.request.SubjectApprovalRequestDto;
@@ -35,14 +35,11 @@ public class SubjectServiceImpl implements SubjectService {
     // 과목 전체 목록 조회
     @Override
     @Transactional(readOnly = true)
-    public ResponseDto<List<SubjectListDto>> getAllSubjects(SubjectAffiliation affiliation) {
-       List<Subject> subjects;
+    public ResponseDto<List<SubjectListDto>> getAllSubjects(Affiliation affiliation) {
+        List<Subject> subjects = (affiliation == null) ?
+                subjectRepository.findAll() :
+                subjectRepository.findByAffiliation(affiliation);
 
-        if (affiliation == null) {
-            subjects = subjectRepository.findAll();
-        } else {
-            subjects = subjectRepository.findByAffiliation(affiliation);
-        }
         List<SubjectListDto> dto = subjects.stream()
                 .map(subject -> SubjectListDto.builder()
                         .subjectId(subject.getSubjectId())
@@ -52,7 +49,7 @@ public class SubjectServiceImpl implements SubjectService {
                         .affiliation(subject.getAffiliation())
                         .build())
                 .collect(Collectors.toList());
-        return ResponseDto.setSuccess("과목 전체 목록 조회 성공", dto);
+        return ResponseDto.setSuccess(ResponseMessage.GET_SUBJECT_LIST_SUCCESS, dto);
     }
 
     // 과목 상세 정보 조회
@@ -73,8 +70,7 @@ public class SubjectServiceImpl implements SubjectService {
                     .status(subject.getStatus())
                     .maxEnrollment(subject.getMaxEnrollment())
                     .build();
-
-            return ResponseDto.setSuccess("과목 상세 조회 성공", responseData);
+            return ResponseDto.setSuccess(ResponseMessage.GET_SUBJECT_DETAIL_SUCCESS, responseData);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }
@@ -92,6 +88,7 @@ public class SubjectServiceImpl implements SubjectService {
 
             SubjectDetailDto responseData = SubjectDetailDto.builder()
                     .subjectId(subject.getSubjectId())
+                    .schoolId(subject.getSchoolId())
                     .subjectName(subject.getSubjectName())
                     .grade(subject.getGrade())
                     .semester(subject.getSemester())
@@ -99,8 +96,7 @@ public class SubjectServiceImpl implements SubjectService {
                     .status(subject.getStatus())
                     .maxEnrollment(subject.getMaxEnrollment())
                     .build();
-
-            return ResponseDto.setSuccess("과목 상태가 성공적으로 변경되었습니다.", responseData);
+            return ResponseDto.setSuccess(ResponseMessage.UPDATE_SUBJECT_STATUS_SUCCESS, responseData);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }
@@ -112,15 +108,17 @@ public class SubjectServiceImpl implements SubjectService {
     public ResponseDto<SubjectDetailDto> rejectSubject(String subjectId) {
         try {
             Subject subject = subjectRepository.findById(subjectId)
-                    .orElseThrow(() -> new EntityNotFoundException("과목을 등록 할 수 없습니다. " + subjectId));
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_SUBJECT));
 
             if (subject.getStatus() != SubjectStatus.pending) {
-                throw new IllegalStateException("'승인 대기' 상태의 과목만 거절할 수 있습니다.");
+                throw new IllegalStateException(ResponseMessage.CANNOT_PROCESS_PENDING_ONLY);
             }
+
             subject.setStatus(SubjectStatus.rejected);
 
             SubjectDetailDto responseData = SubjectDetailDto.builder()
                     .subjectId(subject.getSubjectId())
+                    .schoolId(subject.getSchoolId())
                     .subjectName(subject.getSubjectName())
                     .grade(subject.getGrade())
                     .semester(subject.getSemester())
@@ -128,8 +126,7 @@ public class SubjectServiceImpl implements SubjectService {
                     .status(subject.getStatus())
                     .maxEnrollment(subject.getMaxEnrollment())
                     .build();
-
-            return ResponseDto.setSuccess("과목이 거절 처리되었습니다.", responseData);
+            return ResponseDto.setSuccess(ResponseMessage.REJECT_SUBJECT_SUCCESS, responseData);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }
@@ -141,20 +138,19 @@ public class SubjectServiceImpl implements SubjectService {
     public ResponseDto<LectureResponseDto> approveSubjectAndCreateLecture(String subjectId, SubjectApprovalRequestDto requestDto) {
         try {
             Subject subject = subjectRepository.findById(subjectId)
-                    .orElseThrow(() -> new EntityNotFoundException("과목을 등록 할 수 없습니다. " + subjectId));
-
-            Teacher teacher = teacherRepository.findById(requestDto.getTeacherId())
-                    .orElseThrow(() -> new EntityNotFoundException("선생님을 찾을 수 없습니다. ID: " + requestDto.getTeacherId()));
-
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_SUBJECT));
             if (subject.getStatus() != SubjectStatus.pending) {
-                throw new IllegalStateException("'승인 대기' 상태의 과목만 처리할 수 있습니다.");
+                throw new IllegalStateException(ResponseMessage.CANNOT_PROCESS_PENDING_ONLY);
             }
             subject.setStatus(SubjectStatus.approved);
 
+            Teacher teacher = teacherRepository.findById(requestDto.getTeacherId())
+                    .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_TEACHER));
+
             Lecture lecture = Lecture.builder()
-                    .school(subject.getSchoolId())
-                    .subject(subject)
-                    .teacher(teacher)
+                    .schoolId(subject.getSchoolId())
+                    .subjectId(subject)
+                    .teacherId(teacher)
                     .dayOfWeek(requestDto.getDayOfWeek())
                     .period(requestDto.getPeriod())
                     .allowedGrade(requestDto.getAllowedGrade())
@@ -170,8 +166,7 @@ public class SubjectServiceImpl implements SubjectService {
                     .period(lecture.getPeriod())
                     .allowedGrade(lecture.getAllowedGrade())
                     .build();
-
-            return ResponseDto.setSuccess("강의가 성공적으로 승인 및 생성되었습니다.", responseData);
+            return ResponseDto.setSuccess(ResponseMessage.APPROVE_SUBJECT_SUCCESS, responseData);
         } catch (Exception e) {
             return ResponseDto.setFailed(e.getMessage());
         }

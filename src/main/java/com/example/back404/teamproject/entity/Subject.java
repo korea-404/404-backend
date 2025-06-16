@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
 import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import lombok.*;
 @Entity
 @Table(name = "subject")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -34,7 +33,7 @@ public class Subject extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "subject_affiliation", nullable = false)
-    private SubjectAffiliation affiliation;
+    private Affiliation affiliation;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "subject_status", nullable = false)
@@ -42,4 +41,8 @@ public class Subject extends BaseTimeEntity {
 
     @Column(name = "subject_max_enrollment", nullable = false)
     private Integer maxEnrollment;
+
+    public void updateStatus(SubjectStatus newStatus) {
+        this.status = newStatus;
+    }
 }

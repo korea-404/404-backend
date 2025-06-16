@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.dto.subjects.response;
 
-import com.example.back404.teamproject.common.constants.enums.SubjectAffiliation;
+import com.example.back404.teamproject.common.constants.enums.Affiliation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +15,5 @@ public class SubjectListDto {
     private String subjectName;
     private String grade;
     private String semester;
-    private SubjectAffiliation affiliation;
+    private Affiliation affiliation;
 }

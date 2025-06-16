@@ -1,6 +1,7 @@
 package com.example.back404.teamproject.entity;
 
 import com.example.back404.teamproject.common.constants.enums.LectureDayOfWeek;
+import com.example.back404.teamproject.dto.lectures.request.LectureUpdateRequestDto;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +9,6 @@ import lombok.*;
 @Entity
 @Table(name = "lecture")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -43,4 +43,11 @@ public class Lecture extends BaseTimeEntity {
 
     @Column(name = "lecture_max_enrollment", nullable = false)
     private Integer maxEnrollment;
+
+    public void updateInfo(Teacher teacher, LectureUpdateRequestDto dto) {
+        this.teacherId = teacher;
+        this.dayOfWeek = dto.getDayOfWeek();
+        this.period = dto.getPeriod();
+        this.maxEnrollment = dto.getMaxEnrollment();
+    }
 }
