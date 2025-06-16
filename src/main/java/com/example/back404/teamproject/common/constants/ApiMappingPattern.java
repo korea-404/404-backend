@@ -1,6 +1,9 @@
 package com.example.back404.teamproject.common.constants;
 
 public class ApiMappingPattern {
+<<<<<<< HEAD
+    public static final String SCHOOL_AUTH_API = "/api/v1/auth";
+=======
 
     // 인증 관련
     public static final String AUTH_API = "/api/v1/auth";
@@ -37,5 +40,5 @@ public class ApiMappingPattern {
 
     // 공지사항 관련
     public static final String NOTICE_API = "/api/v1/notices";
+>>>>>>> 149516dec84fca1fcbde5c10a2b04c866f1b481e
 }
-
