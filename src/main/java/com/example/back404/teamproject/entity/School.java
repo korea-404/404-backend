@@ -16,9 +16,8 @@ import java.time.LocalDateTime;
 public class School extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_id")
-    private Long id;
+    private String schoolId;
 
     @Column(name = "school_code", nullable = false, unique = true)
     private Integer schoolCode;
