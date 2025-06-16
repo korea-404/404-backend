@@ -61,17 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /*
-     * === setAuthenticationContext ===
-     * : SecurityContext에 인증 정보를 설정하는 메서드
-     *
-     * - setAuthenticationContext()는 요청에서 username 값을 SecurityContext에 인증 정보로 설정
-     *   : UsernamePasswordAuthenticationToken을 생성하고
-     *       , 해당 토큰에 username 값을 넣어 인증 정보로 등록
-     *
-     * >> Spring Security는 SecurityContextHoler에 있는 인증 정보를 자동으로
-     *       , 컨트롤러의 메서드에 주입시킬 수 있음 (@AuthenticationPrincipal)
-     * */
     private void setAuthenticationContext(HttpServletRequest request, String username, Set<String> roles) {
 
         List<GrantedAuthority> authorities = roles.stream()

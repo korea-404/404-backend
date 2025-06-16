@@ -3,7 +3,9 @@ package com.example.back404.teamproject.entity;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "school")
@@ -48,8 +50,19 @@ public class School extends BaseTimeEntity {
     @Column(name = "application_limited_day", nullable = false)
     private LocalDate applicationLimitedDay;
 
+    @Builder.Default
+    @Column(name = "is_email_verified", nullable = false)
+    private Boolean isEmailVerified = false;
 
-    // 학교의 기본 정보(주소, 연락처, 관리자 이름 등)를 수정
+    @Builder.Default
+    @Column(name = "school_code_verification_key", length = 50)
+    private String schoolCodeVerificationKey = "";
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    // === 비즈니스 로직 === //
+
     public void updateSchoolInfo(String address, String contactNumber, String adminName, String adminPhoneNumber, String adminEmail) {
         this.schoolAddress = address;
         this.schoolContactNumber = contactNumber;
@@ -58,14 +71,30 @@ public class School extends BaseTimeEntity {
         this.schoolAdminEmail = adminEmail;
     }
 
-    // 학교 관리자 비밀번호를 변경
     public void changePassword(String newPassword) {
         this.schoolPassword = newPassword;
     }
 
-    // 수강 신청 기간을 수정
     public void updateApplicationPeriod(LocalDate startDate, LocalDate limitedDate) {
         this.applicationStartedDay = startDate;
         this.applicationLimitedDay = limitedDate;
+    }
+
+    public void verifyEmail() {
+        this.isEmailVerified = true;
+    }
+
+    public void softDelete() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
+
+    public void updateSchoolMainInfo(String name, String address, String contactNumber) {
+        this.schoolName = name;
+        this.schoolAddress = address;
+        this.schoolContactNumber = contactNumber;
     }
 }
