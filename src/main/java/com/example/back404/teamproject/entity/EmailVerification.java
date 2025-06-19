@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,10 +27,10 @@ public class EmailVerification {
     private String token;
 
     // 인증 여부
+    @Builder.Default
     @Column(name = "is_verified", nullable = false)
     private Boolean isVerified = false;
 
     @Column(name = "expiration_time", nullable = false)
     private LocalDateTime expirationTime;
 }
-
