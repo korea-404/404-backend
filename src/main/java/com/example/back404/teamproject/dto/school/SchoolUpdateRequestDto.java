@@ -1,12 +1,11 @@
-package com.example.back404.teamproject.dto.auth;
+package com.example.back404.teamproject.dto.school;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SchoolApplicationRequestDto {
-    private String schoolName;
+public class SchoolUpdateRequestDto {
     private String schoolAddress;
     private String schoolContactNumber;
     private String schoolAdminName;

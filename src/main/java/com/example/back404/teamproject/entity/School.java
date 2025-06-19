@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.constants.enums.SchoolStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,7 +19,7 @@ public class School extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_id")
-    private Long schoolId;
+    private Long id;
 
     @Column(name = "school_code", nullable = false, unique = true)
     private Integer schoolCode;
@@ -54,14 +55,16 @@ public class School extends BaseTimeEntity {
     @Column(name = "is_email_verified", nullable = false)
     private Boolean isEmailVerified = false;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "school_status", nullable = false)
+    private SchoolStatus status;
+
     @Builder.Default
     @Column(name = "school_code_verification_key", length = 50)
     private String schoolCodeVerificationKey = "";
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
-    // === 비즈니스 로직 === //
 
     public void updateSchoolInfo(String address, String contactNumber, String adminName, String adminPhoneNumber, String adminEmail) {
         this.schoolAddress = address;
@@ -71,10 +74,12 @@ public class School extends BaseTimeEntity {
         this.schoolAdminEmail = adminEmail;
     }
 
+    // 학교 관리자 비밀번호를 변경
     public void changePassword(String newPassword) {
         this.schoolPassword = newPassword;
     }
 
+    // 수강 신청 기간을 수정
     public void updateApplicationPeriod(LocalDate startDate, LocalDate limitedDate) {
         this.applicationStartedDay = startDate;
         this.applicationLimitedDay = limitedDate;
@@ -96,5 +101,9 @@ public class School extends BaseTimeEntity {
         this.schoolName = name;
         this.schoolAddress = address;
         this.schoolContactNumber = contactNumber;
+    }
+
+    public void updateStatus(SchoolStatus newStatus) {
+        this.status = newStatus;
     }
 }

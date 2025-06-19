@@ -1,10 +1,12 @@
 package com.example.back404.teamproject.repository;
 
+import com.example.back404.teamproject.common.constants.enums.SchoolStatus;
 import com.example.back404.teamproject.entity.School;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface SchoolRepository extends JpaRepository<School, Long> {
@@ -23,4 +25,6 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
 
     Optional<School> findBySchoolAdminNameAndIsEmailVerifiedTrue(String schoolAdminName);
 
+    // 상태로 필터링하는 메서드 추가
+    List<School> findAllByStatus(SchoolStatus status);
 }
