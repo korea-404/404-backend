@@ -1,7 +1,7 @@
 package com.example.back404.teamproject.dto.students.response;
 
-import com.example.back404.teamproject.common.constants.enums.StudentStatus;
 import com.example.back404.teamproject.common.constants.enums.Affiliation;
+import com.example.back404.teamproject.common.constants.enums.StudentStatus;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class StudentDetailDto {
     private String id;
     private String name;
-    private String grade;
+    private int grade;
     private String studentNumber;
     private String email;
     private String phoneNumber;

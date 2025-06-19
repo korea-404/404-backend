@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubjectListDto {
+public class SubjectListGetResponseDto {
     private String subjectId;
     private String subjectName;
     private String grade;
-    private String semester;
     private Affiliation affiliation;
 }

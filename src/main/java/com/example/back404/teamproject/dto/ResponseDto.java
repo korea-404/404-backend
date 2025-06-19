@@ -1,21 +1,18 @@
 package com.example.back404.teamproject.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@AllArgsConstructor
-public class ResponseDto<T> {
-    private boolean success;
+@Data
+@AllArgsConstructor(staticName = "set")
+public class ResponseDto<D> {
+    private boolean result;
     private String message;
-    private T data;
+    private D data;
 
-    public static <T> ResponseDto<T> success(T data) {
-        return new ResponseDto<>(true, "요청 성공", data);
-    }
+    // 성공 응답 생성
+    public static <D> ResponseDto<D> setSuccess(String message, D data) { return ResponseDto.set(true, message, data);}
 
-    public static <T> ResponseDto<T> fail(String message, T data) {
-        return new ResponseDto<>(false, message, data);
-    }
+    // 실패 응답 생성
+    public static <D> ResponseDto<D> setFailed(String message) { return ResponseDto.set(false, message, null);}
 }
-

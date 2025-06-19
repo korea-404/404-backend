@@ -1,11 +1,12 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.SchoolApplicationStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@DynamicUpdate
 @Table(name = "school_application")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,10 +18,6 @@ public class SchoolApplication extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_application_id")
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "school_application_status", nullable = false)
-    private SchoolApplicationStatus schoolApplicationStatus = SchoolApplicationStatus.PENDING;
 
     @Column(name = "school_name", nullable = false)
     private String schoolName;
@@ -40,13 +37,19 @@ public class SchoolApplication extends BaseTimeEntity {
     @Column(name = "school_admin_email", nullable = false)
     private String schoolAdminEmail;
 
-    // 신청을 승인 상태로 변경
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ApplicationStatus status;
+
     public void approve() {
-        this.schoolApplicationStatus = SchoolApplicationStatus.APPROVED;
+        this.status = ApplicationStatus.APPROVED;
     }
 
-    // 신청을 거절 상태로 변경
     public void reject() {
-        this.schoolApplicationStatus = SchoolApplicationStatus.REJECTED;
+        this.status = ApplicationStatus.REJECTED;
+    }
+
+    public enum ApplicationStatus {
+        PENDING, APPROVED, REJECTED
     }
 }

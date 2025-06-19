@@ -1,6 +1,7 @@
 package com.example.back404.teamproject.service.implementations;
 
-import com.example.back404.teamproject.common.constants.ResponseDto;
+import com.example.back404.teamproject.common.constants.ResponseMessage;
+import com.example.back404.teamproject.dto.ResponseDto;
 import com.example.back404.teamproject.dto.students.response.StudentDetailDto;
 import com.example.back404.teamproject.dto.students.response.StudentListDto;
 import com.example.back404.teamproject.entity.Student;
@@ -21,12 +22,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDto<List<StudentListDto>> getAllStudents(String name) {
-        List<Student> students = (name == null) ?
-                studentRepository.findAll() :
-                studentRepository.findByNameContaining(name);
+    public ResponseDto<List<StudentListDto>> getStudentList(String name) {
+        List<Student> students;
+        if (name == null || name.isBlank()) {
+            students = studentRepository.findAll();
+        } else {
+            students = studentRepository.findByNameContaining(name);
+        }
 
-        List<StudentListDto> dtoList = students.stream()
+        List<StudentListDto> dto = students.stream()
                 .map(student -> StudentListDto.builder()
                         .id(student.getId())
                         .name(student.getName())
@@ -35,32 +39,27 @@ public class StudentServiceImpl implements StudentService {
                         .email(student.getEmail())
                         .build())
                 .collect(Collectors.toList());
-        return ResponseDto.setSuccess("학생 목록 조회 성공", dtoList);
+        return ResponseDto.setSuccess(ResponseMessage.GET_TEACHER_LIST_SUCCESS, dto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDto<StudentDetailDto> getStudentById(String studentId) {
-        try {
-            Student student = studentRepository.findById(studentId)
-                    .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 학생입니다."));
+    public ResponseDto<StudentDetailDto> getStudentDetail(String studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException(ResponseMessage.NOT_EXISTS_STUDENT + ":" + studentId));
 
-            StudentDetailDto responseData = StudentDetailDto.builder()
-                    .id(student.getId())
-                    .name(student.getName())
-                    .grade(student.getGrade())
-                    .studentNumber(student.getStudentNumber())
-                    .email(student.getEmail())
-                    .phoneNumber(student.getPhoneNumber())
-                    .birthDate(student.getBirthDate())
-                    .affiliation(student.getAffiliation())
-                    .status(student.getStatus())
-                    .admissionYear(student.getAdmissionYear())
-                    .build();
-
-            return ResponseDto.setSuccess("학생 상세 정보 조회 성공", responseData);
-        } catch (Exception e) {
-            return ResponseDto.setFailed(e.getMessage());
-        }
+        StudentDetailDto dto = StudentDetailDto.builder()
+                .id(student.getId())
+                .name(student.getName())
+                .grade(student.getGrade())
+                .studentNumber(student.getStudentNumber())
+                .email(student.getEmail())
+                .phoneNumber(student.getPhoneNumber())
+                .birthDate(student.getBirthDate())
+                .affiliation(student.getAffiliation())
+                .status(student.getStatus())
+                .admissionYear(student.getAdmissionYear())
+                .build();
+        return ResponseDto.setSuccess(ResponseMessage.GET_STUDENT_DETAIL_SUCCESS, dto);
     }
 }

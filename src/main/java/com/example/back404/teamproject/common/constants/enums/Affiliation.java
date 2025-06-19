@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum Affiliation {
-    liberal_arts("인문계열"),
-    natural_sciences("자연계열");
+    LIBERAL_ARTS("인문계열"),
+    NATURAL_SCIENCES("자연계열");
 
     private final String description;
     Affiliation(String description) {

@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.CourseApprovalStatus;
+import com.example.back404.teamproject.common.constants.enums.CourseRegistrationApprovalStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,26 +36,26 @@ public class CourseRegistration extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "course_registration_approval_status", nullable = false)
-    private CourseApprovalStatus approvalStatus = CourseApprovalStatus.PENDING;
+    private CourseRegistrationApprovalStatus approvalStatus = CourseRegistrationApprovalStatus.PENDING;
 
     @Column(name = "course_registration_approval_date")
     private LocalDateTime approvalDate;
 
     // 수강 신청을 승인
     public void approve() {
-        if (this.approvalStatus != CourseApprovalStatus.PENDING) {
+        if (this.approvalStatus != CourseRegistrationApprovalStatus.PENDING) {
             throw new IllegalStateException("대기 상태인 수강 신청만 승인할 수 있습니다.");
         }
-        this.approvalStatus = CourseApprovalStatus.APPROVED;
+        this.approvalStatus = CourseRegistrationApprovalStatus.APPROVED;
         this.approvalDate = LocalDateTime.now();
     }
 
     // 수강 신청을 거절
     public void reject() {
-        if (this.approvalStatus != CourseApprovalStatus.PENDING) {
+        if (this.approvalStatus != CourseRegistrationApprovalStatus.PENDING) {
             throw new IllegalStateException("대기 상태인 수강 신청만 거절할 수 있습니다.");
         }
-        this.approvalStatus = CourseApprovalStatus.REJECTED;
+        this.approvalStatus = CourseRegistrationApprovalStatus.REJECTED;
         this.approvalDate = LocalDateTime.now();
     }
 }

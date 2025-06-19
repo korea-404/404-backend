@@ -9,9 +9,9 @@ import lombok.*;
 @NoArgsConstructor(access =  AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class SubjectDetailDto {
+public class SubjectGetResponseDto {
     private String subjectId;
-    private String schoolId;
+    private Long schoolId;
     private String subjectName;
     private String grade;
     private String semester;

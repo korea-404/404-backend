@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum SchoolApplicationStatus {
-    PENDING("대기"),
-    APPROVED("승인"),
-    REJECTED("거절");
+    PENDING("승인 대기"),
+    APPROVED("승인 완료"),
+    REJECTED("승인 반려");
 
     private final String description;
 

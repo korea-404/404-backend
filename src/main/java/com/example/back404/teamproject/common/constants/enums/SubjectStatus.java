@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum SubjectStatus {
-    approved("승인 완료"),
-    pending("승인 대기"),
-    rejected("승인 거절");
+    APPROVAL("승인 완료"),
+    UPDATED("과목 수정"),
+    REJECTED("승인 거절"),
+    DELETED("과목 삭제");
 
     private final String description;
     SubjectStatus(String description) {

@@ -2,6 +2,7 @@ package com.example.back404.teamproject.entity;
 
 import com.example.back404.teamproject.common.constants.enums.Affiliation;
 import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
+import com.example.back404.teamproject.dto.subjects.request.SubjectUpdateRequestDto;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,5 +45,13 @@ public class Subject extends BaseTimeEntity {
 
     public void updateStatus(SubjectStatus newStatus) {
         this.status = newStatus;
+    }
+
+    public void updateInfo(SubjectUpdateRequestDto dto) {
+        this.subjectName = dto.getSubjectName();
+        this.grade = dto.getGrade();
+        this.semester = dto.getSemester();
+        this.affiliation = dto.getAffiliation();
+        this.maxEnrollment = dto.getMaxEnrollment();
     }
 }

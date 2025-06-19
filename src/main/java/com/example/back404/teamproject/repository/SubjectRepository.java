@@ -9,5 +9,9 @@ import java.util.List;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, String> {
+    List<Subject> findBySubjectNameContaining(String subjectName);
+
     List<Subject> findByAffiliation(Affiliation affiliation);
+
+    List<Subject> findBySubjectNameContainingAndAffiliation(String subjectName, Affiliation affiliation);
 }

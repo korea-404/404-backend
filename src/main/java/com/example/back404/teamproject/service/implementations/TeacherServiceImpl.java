@@ -1,7 +1,9 @@
 package com.example.back404.teamproject.service.implementations;
 
-import com.example.back404.teamproject.common.constants.ResponseDto;
+import com.example.back404.teamproject.common.constants.ResponseMessage;
+import com.example.back404.teamproject.dto.ResponseDto;
 import com.example.back404.teamproject.dto.teachers.response.TeacherListDto;
+import com.example.back404.teamproject.entity.Teacher;
 import com.example.back404.teamproject.repository.TeacherRepository;
 import com.example.back404.teamproject.service.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public ResponseDto<List<TeacherListDto>> getAllTeachers() {
-        List<TeacherListDto> dtoList = teacherRepository.findAll().stream()
+        List<Teacher> teachers = teacherRepository.findAll();
+        List<TeacherListDto> dto = teachers.stream()
                 .map(teacher -> TeacherListDto.builder()
                         .id(teacher.getId())
                         .name(teacher.getName())
@@ -27,6 +30,6 @@ public class TeacherServiceImpl implements TeacherService {
                         .phoneNumber(teacher.getPhoneNumber())
                         .build())
                 .collect(Collectors.toList());
-        return ResponseDto.setSuccess("교사 전체 목록 조회 성공", dtoList);
+        return ResponseDto.setSuccess(ResponseMessage.GET_TEACHER_LIST_SUCCESS, dto);
     }
 }

@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum StudentStatus {
     PENDING("승인 대기"),
-    APPROVED("재학"),
-    ON_LEAVE("휴학"),
+    APPROVED("승인 완료"),
+    REJECTED("승인 반려"),
     GRADUATED("졸업");
 
     private final String description;

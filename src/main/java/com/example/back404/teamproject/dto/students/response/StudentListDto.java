@@ -8,7 +8,7 @@ import lombok.Getter;
 public class StudentListDto {
     private String id;
     private String name;
-    private String grade;
+    private int grade;
     private String studentNumber;
     private String email;
 }

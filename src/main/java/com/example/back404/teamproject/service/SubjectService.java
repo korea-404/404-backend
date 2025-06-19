@@ -1,25 +1,21 @@
 package com.example.back404.teamproject.service;
 
-import com.example.back404.teamproject.common.constants.ResponseDto;
 import com.example.back404.teamproject.common.constants.enums.Affiliation;
-import com.example.back404.teamproject.common.constants.enums.SubjectStatus;
-import com.example.back404.teamproject.dto.lectures.response.LectureResponseDto;
-import com.example.back404.teamproject.dto.subjects.request.SubjectApprovalRequestDto;
-import com.example.back404.teamproject.dto.subjects.response.SubjectDetailDto;
-import com.example.back404.teamproject.dto.subjects.response.SubjectListDto;
+import com.example.back404.teamproject.dto.ResponseDto;
+import com.example.back404.teamproject.dto.subjects.response.SubjectGetResponseDto;
+import com.example.back404.teamproject.dto.subjects.response.SubjectListGetResponseDto;
 
 import java.util.List;
 
 public interface SubjectService {
-    // 과목 전체 목록 조회
-    ResponseDto<List<SubjectListDto>> getAllSubjects(Affiliation affiliation);
-    // 과목 상세 정보 조회
-    ResponseDto<SubjectDetailDto> getSubjectById( String subjectId);
-    // 등록 과목을 '대기/승인/거절' 상태로 변경
-    ResponseDto<SubjectDetailDto> updateSubjectStatus(String subjectId, SubjectStatus newStatus);
-    // 승인 거절
-    ResponseDto<SubjectDetailDto> rejectSubject(String subjectId);
-    // 과목 승인 -> 강의 자동 생성
-    ResponseDto<LectureResponseDto> approveSubjectAndCreateLecture(String subjectId, SubjectApprovalRequestDto dto);
 
+    // 과목 목록 검색 조회 (반환 LIST) - 교사 / 관리자
+    ResponseDto<List<SubjectListGetResponseDto>> getSubjects(String userId, String subjectId, String subjectName, String grade, String semester, Affiliation affiliation);
+
+    // 과목 상세 조회 (반환 단건) - 교사 / 관리자
+    ResponseDto<SubjectGetResponseDto> getSubjectById(String userId, String subjectId);
+
+    // 과목 상태 변경 (승인/거절/수정/삭제) - 관리자
+
+    // 과목 수정 - 교사 (프론트엔드 파트 담당)
 }

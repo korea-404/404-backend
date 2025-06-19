@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.TargetAudience;
+import com.example.back404.teamproject.common.constants.enums.NoticeTargetAudience;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,7 +33,7 @@ public class Notice extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "notice_target_audience", nullable = false)
-    private TargetAudience targetAudience;
+    private NoticeTargetAudience noticeTargetAudience;
 
     @Column(name = "notice_start_date", nullable = false)
     private LocalDate startDate;
@@ -42,10 +42,10 @@ public class Notice extends BaseTimeEntity {
     private LocalDate endDate;
 
     // 공지사항 내용을 수정
-    public void update(String title, String content, TargetAudience targetAudience, LocalDate startDate, LocalDate endDate) {
+    public void update(String title, String content, NoticeTargetAudience noticeTargetAudience, LocalDate startDate, LocalDate endDate) {
         this.title = title;
         this.content = content;
-        this.targetAudience = targetAudience;
+        this.noticeTargetAudience = noticeTargetAudience;
         this.startDate = startDate;
         this.endDate = endDate;
     }
