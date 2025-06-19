@@ -30,3 +30,4 @@ public class ResponseDto<T> {
         return new ResponseDto<>(false, message, data);
     }
 }
+

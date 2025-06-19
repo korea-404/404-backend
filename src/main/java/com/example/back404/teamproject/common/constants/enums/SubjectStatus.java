@@ -1,0 +1,16 @@
+package com.example.back404.teamproject.common.constants.enums;
+
+import lombok.Getter;
+
+@Getter
+public enum SubjectStatus {
+    APPROVAL("승인 완료"),
+    UPDATED("과목 수정"),
+    REJECTED("승인 거절"),
+    DELETED("과목 삭제");
+
+    private final String description;
+    SubjectStatus(String description) {
+        this.description = description;
+    }
+}

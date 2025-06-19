@@ -59,6 +59,10 @@ public class School extends BaseTimeEntity {
     @Column(name = "school_status", nullable = false)
     private SchoolStatus status;
 
+    @Builder.Default
+    @Column(name = "school_code_verification_key", length = 50)
+    private String schoolCodeVerificationKey = "";
+
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
@@ -70,10 +74,12 @@ public class School extends BaseTimeEntity {
         this.schoolAdminEmail = adminEmail;
     }
 
+    // 학교 관리자 비밀번호를 변경
     public void changePassword(String newPassword) {
         this.schoolPassword = newPassword;
     }
 
+    // 수강 신청 기간을 수정
     public void updateApplicationPeriod(LocalDate startDate, LocalDate limitedDate) {
         this.applicationStartedDay = startDate;
         this.applicationLimitedDay = limitedDate;
