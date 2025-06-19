@@ -19,6 +19,9 @@ public class SchoolApplication extends BaseTimeEntity {
     @Column(name = "school_application_id")
     private Long id;
 
+    @Column(name = "school_code", nullable = false, unique = true)
+    private Integer schoolCode;
+
     @Column(name = "school_name", nullable = false)
     private String schoolName;
 

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SchoolApplicationRepository extends JpaRepository<SchoolApplication, Long> {
+    boolean existsBySchoolCode(Integer schoolCode);
 }

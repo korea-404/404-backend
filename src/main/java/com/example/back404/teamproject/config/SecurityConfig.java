@@ -28,8 +28,20 @@ public class SecurityConfig {
                 .cors(cors -> {}) // CORS 기본 허용
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 전체 API 일단 전부 허용해서 문제 여부 확인 (테스트용)
-                        .requestMatchers("/**").permitAll()
+                        // 이메일 인증, 로그인/회원가입은 모두 허용
+                        .requestMatchers("/api/v1/mail/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // 공지사항 GET 조회만 허용 (POST, PUT은 권한 필요)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/notice/**").permitAll()
+
+                        // 학교 신청 등록, 신청 조회 등은 관리자만 가능
+                        .requestMatchers("/api/v1/school-application/**").hasRole("ADMIN")
+
+                        // 학교 정보 CRUD도 관리자만 가능
+                        .requestMatchers("/api/v1/school/**").hasRole("ADMIN")
+
+                        // 그 외 요청은 인증된 사용자만
                         .anyRequest().authenticated()
                 );
 

@@ -9,4 +9,7 @@ public class SchoolInfoUpdateRequestDto {
     private String schoolName;
     private String schoolAddress;
     private String schoolContactNumber;
+
+    private String currentPassword;
+    private String newPassword;
 }
