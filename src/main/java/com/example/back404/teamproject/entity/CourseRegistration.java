@@ -1,6 +1,5 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.CourseRegistrationApprovalStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;

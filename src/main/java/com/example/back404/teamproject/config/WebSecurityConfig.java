@@ -56,7 +56,11 @@ public class WebSecurityConfig {
                         // 중복 권한
                         .requestMatchers("/api/v1/common/**").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers("/api/v1/common/**").hasAnyRole("TEACHER", "STUDENT")
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/subjects/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/subjects").hasRole("TEACHER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/subjects/**").hasRole("TEACHER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/admin/subjects/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
