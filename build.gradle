@@ -24,8 +24,6 @@ repositories {
 }
 
 dependencies {
-	// 프로젝트 개발에 필요한 의존성 기능을 입력
-
 	// 웹 애플리케이션 개발 시 반드시 필요: 내장 톰캣 서버를 실행, 스프링 어노테이션 사용 가능
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
