@@ -19,7 +19,7 @@ public class StudentController {
     private final StudentService studentService;
 
 
-     // 학생 목록 조회 (이름 검색 )
+    // 학생 목록 조회 (이름 검색 )
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     public ResponseEntity<ResponseDto<List<StudentListDto>>> getStudentList(
