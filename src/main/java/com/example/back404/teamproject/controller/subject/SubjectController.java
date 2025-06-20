@@ -25,11 +25,10 @@ public class SubjectController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     public ResponseEntity<ResponseDto<List<SubjectListGetResponseDto>>> searchSubjects(
-            @AuthenticationPrincipal String userId,
-            // 검색 데이터 전부를 RequestParam으로 나열
-            @RequestParam(required = false) String subjectId, String subjectName, String grade, String semester, Affiliation affiliation
+            @AuthenticationPrincipal String email, // UserDetails 정보를 반환 (email, role 반환)
+            @RequestParam(required = false) String subjectName, String grade, String semester, Affiliation affiliation
     ) {
-        ResponseDto<List<SubjectListGetResponseDto>> results = subjectService.getSubjects(userId, subjectId, subjectName, grade, semester, affiliation);
+        ResponseDto<List<SubjectListGetResponseDto>> results = subjectService.searchSubjects(email, subjectName, grade, semester, affiliation);
         return ResponseEntity.ok(results);
     }
 
