@@ -10,7 +10,7 @@ import java.util.List;
 public interface SubjectService {
 
     // 과목 목록 검색 조회 (반환 LIST) - 교사 / 관리자
-    ResponseDto<List<SubjectListGetResponseDto>> getSubjects(String userId, String subjectId, String subjectName, String grade, String semester, Affiliation affiliation);
+    ResponseDto<List<SubjectListGetResponseDto>> searchSubjects(String userId, String subjectName, String grade, String semester, Affiliation affiliation);
 
     // 과목 상세 조회 (반환 단건) - 교사 / 관리자
     ResponseDto<SubjectGetResponseDto> getSubjectById(String userId, String subjectId);
