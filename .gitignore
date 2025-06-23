@@ -37,4 +37,4 @@ out/
 .vscode/
 
 application.properties
-application.properties.secret
+application-secret.properties
