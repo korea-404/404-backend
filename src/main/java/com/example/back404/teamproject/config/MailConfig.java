@@ -8,24 +8,26 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-// Spring 애플리케이션 구성 정보를 제공하는 설정 클래스
+/**
+ * 메일 발송을 위한 SMTP 설정 클래스
+ */
 @Configuration
-public class MailConfig { // Mail 관련 설정
+public class MailConfig {
 
     @Value("${spring.mail.host}")
-    private String host; // 이메일 서버의 호스트 주소
-    @Value("${spring.mail.port}")
-    private int port; // 이메일 서버가 사용하는 포트 번호 (587)
+    private String host; // 메일 서버 호스트
 
-    // 인증 정보
+    @Value("${spring.mail.port}")
+    private int port; // 메일 서버 포트
+
     @Value("${spring.mail.username}")
-    private String username;
+    private String username; // 로그인용 사용자명
+
     @Value("${spring.mail.password}")
-    private String password;
+    private String password; // 로그인용 비밀번호
 
     @Bean
     public JavaMailSender javaMailSender() {
-        // JavaMailSender의 기본 구현체 생성
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
@@ -33,11 +35,12 @@ public class MailConfig { // Mail 관련 설정
         mailSender.setUsername(username);
         mailSender.setPassword(password);
 
-        // 이메일 전송 시 사용할 추가 속성 설정을 위한 객체 생성
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.required", "true"); // 보안 강화 옵션 유지
+        props.put("mail.smtp.ssl.trust", host);           // SSL 인증 예외 방지
         props.put("mail.debug", "true");
 
         return mailSender;
