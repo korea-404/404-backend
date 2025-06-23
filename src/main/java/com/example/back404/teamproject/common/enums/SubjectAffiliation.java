@@ -8,7 +8,6 @@ public enum SubjectAffiliation {
     NATURAL_SCIENCES("자연계열");
 
     private final String description;
-
     SubjectAffiliation(String description) {
         this.description = description;
     }

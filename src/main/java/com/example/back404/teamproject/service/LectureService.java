@@ -1,52 +1,16 @@
 package com.example.back404.teamproject.service;
 
-import com.example.back404.teamproject.dto.lecture.response.LectureDetailResponseDto;
-import com.example.back404.teamproject.dto.lecture.response.LectureSimpleResponseDto;
-import com.example.back404.teamproject.entity.Lecture;
-import com.example.back404.teamproject.repository.LectureRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.back404.teamproject.dto.common.ResponseDto;
+import com.example.back404.teamproject.dto.lecture.request.LectureUpdateRequestDto;
+import com.example.back404.teamproject.dto.lecture.response.LectureDetailDto;
+import com.example.back404.teamproject.dto.lecture.response.LectureListDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-public class LectureService {
-
-    private final LectureRepository lectureRepository;
-
-    // 전체 강의 목록
-    public List<LectureSimpleResponseDto> getAllLectures() {
-        List<Lecture> lectures = lectureRepository.findAllWithSubjectAndTeacher();
-        return lectures.stream()
-                .map(lecture -> LectureSimpleResponseDto.builder()
-                        .id(lecture.getId())
-                        .subjectName(lecture.getSubject().getName())
-                        .teacherName(lecture.getTeacher().getName())
-                        .dayOfWeek(lecture.getDayOfWeek().toString())
-                        .period(lecture.getPeriod())
-                        .maxStudents(lecture.getMaxStudents())
-                        .currentStudents(lecture.getCourseRegistrations().size())
-                        .build())
-                .collect(Collectors.toList());
-    }
-
-    // 강의 상세
-    public LectureDetailResponseDto getLectureDetail(Long lectureId) {
-        Lecture lecture = lectureRepository.findByIdWithSubjectTeacherClassroom(lectureId)
-                .orElseThrow(() -> new IllegalArgumentException("강의를 찾을 수 없습니다."));
-
-        return LectureDetailResponseDto.builder()
-                .id(lecture.getId())
-                .subjectName(lecture.getSubject().getName())
-                .subjectDescription(lecture.getSubject().getDescription())
-                .teacherName(lecture.getTeacher().getName())
-                .dayOfWeek(lecture.getDayOfWeek().toString())
-                .period(lecture.getPeriod())
-                .maxStudents(lecture.getMaxStudents())
-                .currentStudents(lecture.getCourseRegistrations().size())
-                .classroom(lecture.getClassroom().getName())
-                .build();
-    }
+public interface LectureService {
+    ResponseDto<LectureListDto> updateLecture(Long lectureId, LectureUpdateRequestDto requestDto);
+    ResponseDto<?> deleteLecture(Long lectureId);
+    ResponseDto<List<LectureListDto>>getAllLecturesAdmin();
+    ResponseDto<List<LectureListDto>> getLectureList(String name);
+    ResponseDto<LectureDetailDto> getLectureDetail(Long lectureId);
 }

@@ -2,7 +2,7 @@ package com.example.back404.teamproject.controller.schedule;
 
 import com.example.back404.teamproject.dto.schedule.response.ScheduleResponseDto;
 import com.example.back404.teamproject.provider.JwtProvider;
-import com.example.back404.teamproject.service.ScheduleService;
+import com.example.back404.teamproject.service.impl.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
