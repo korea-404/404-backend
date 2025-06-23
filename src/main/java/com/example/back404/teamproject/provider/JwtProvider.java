@@ -1,19 +1,14 @@
 package com.example.back404.teamproject.provider;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Component
 public class JwtProvider {
@@ -21,10 +16,6 @@ public class JwtProvider {
     private final Key key;
     private final int jwtExpirationMs;
     private final long jwtEmailExpirationMs;
-
-    public int getExpiration() {
-        return jwtExpirationMs;
-    }
 
     public JwtProvider(
             @Value("${jwt.secret}") String secret,
@@ -36,6 +27,7 @@ public class JwtProvider {
         this.jwtEmailExpirationMs = jwtEmailExpirationMs;
     }
 
+    // 로그인용 토큰 생성
     public String generateJwtToken(String username, String role) {
         return Jwts.builder()
                 .claim("username", username)
@@ -46,15 +38,17 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String generateEmailValidToken(String username) {
+    // 이메일 인증용 토큰 생성
+    public String generateEmailToken(String email) {
         return Jwts.builder()
-                .claim("username", username)
+                .claim("username", email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtEmailExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
+    // Bearer 제거
     public String removeBearer(String bearerToken) {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid JWT token format");
@@ -62,6 +56,7 @@ public class JwtProvider {
         return bearerToken.substring("Bearer ".length());
     }
 
+    // 토큰 유효성 검사
     public boolean isValidToken(String token) {
         try {
             getClaims(token);
@@ -71,6 +66,7 @@ public class JwtProvider {
         }
     }
 
+    // Claims 추출
     public Claims getClaims(String token) {
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -78,13 +74,29 @@ public class JwtProvider {
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
+    // username(email) 추출
     public String getUsernameFromJwt(String token) {
-        Claims claims = getClaims(token);
-        return claims.get("username", String.class);
+        return getClaims(token).get("username", String.class);
     }
 
+    // role 추출
     public String getRoleFromJwt(String token) {
-        Claims claims = getClaims(token);
-        return claims.get("role", String.class);
+        return getClaims(token).get("role", String.class);
+    }
+
+    // Request에서 이메일 추출
+    public String getEmailFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = removeBearer(bearerToken);
+            if (isValidToken(token)) {
+                return getUsernameFromJwt(token);
+            }
+        }
+        throw new RuntimeException("유효하지 않은 토큰입니다.");
+    }
+
+    public int getExpiration() {
+        return jwtExpirationMs;
     }
 }
