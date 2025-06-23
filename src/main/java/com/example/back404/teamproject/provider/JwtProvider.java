@@ -36,10 +36,10 @@ public class JwtProvider {
         this.jwtEmailExpirationMs = jwtEmailExpirationMs;
     }
 
-    public String generateJwtToken(String username, Set<String> roles) {
+    public String generateJwtToken(String username, String role) {
         return Jwts.builder()
                 .claim("username", username)
-                .claim("roles", roles)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -83,8 +83,8 @@ public class JwtProvider {
         return claims.get("username", String.class);
     }
 
-    public Set<String> getRolesFromJwt(String token) {
+    public String getRoleFromJwt(String token) {
         Claims claims = getClaims(token);
-        return new HashSet<>((List<String>) claims.get("roles"));
+        return claims.get("role", String.class);
     }
 }

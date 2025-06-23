@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.common.constants.enums;
+package com.example.back404.teamproject.common.enums;
 
 import lombok.Getter;
 
@@ -10,7 +10,6 @@ public enum TeacherStatus {
     RETIRED("퇴직");
 
     private final String description;
-
     TeacherStatus(String description) {
         this.description = description;
     }

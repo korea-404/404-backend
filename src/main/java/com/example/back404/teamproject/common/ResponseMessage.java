@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.common.constants;
+package com.example.back404.teamproject.common;
 
 public class ResponseMessage {
     // 공통 성공 메시지

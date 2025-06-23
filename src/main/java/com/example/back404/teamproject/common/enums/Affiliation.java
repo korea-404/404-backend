@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.common.constants.enums;
+package com.example.back404.teamproject.common.enums;
 
 import lombok.Getter;
 
