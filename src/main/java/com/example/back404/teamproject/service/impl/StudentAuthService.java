@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.service;
+package com.example.back404.teamproject.service.impl;
 
 import com.example.back404.teamproject.common.enums.ErrorCode;
 import com.example.back404.teamproject.common.exception.CustomException;

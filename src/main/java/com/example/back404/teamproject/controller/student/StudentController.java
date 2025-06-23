@@ -5,7 +5,7 @@ import com.example.back404.teamproject.dto.student.request.StudentSignUpRequestD
 import com.example.back404.teamproject.dto.student.request.StudentUpdateRequestDto;
 import com.example.back404.teamproject.dto.student.response.StudentInfoResponseDto;
 import com.example.back404.teamproject.entity.Student;
-import com.example.back404.teamproject.service.StudentService;
+import com.example.back404.teamproject.service.impl.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

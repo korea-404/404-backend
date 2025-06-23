@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.service;
+package com.example.back404.teamproject.service.impl;
 
 import com.example.back404.teamproject.common.enums.CourseRegistrationStatus;
 import com.example.back404.teamproject.dto.schedule.response.ScheduleResponseDto;
@@ -30,9 +30,9 @@ public class ScheduleService {
                 .map(registration -> {
                     Lecture lecture = registration.getLecture();
                     return ScheduleResponseDto.builder()
-                            .dayOfWeek(lecture.getDayOfWeek())
+                            .dayOfWeek(lecture.getDayOfWeek().name())
                             .period(lecture.getPeriod())
-                            .subjectName(lecture.getSubject().getName())
+                            .subjectName(lecture.getSubject().getSubjectName())
                             .lectureRoom(lecture.getClassroom().getName())
                             .build();
                 })

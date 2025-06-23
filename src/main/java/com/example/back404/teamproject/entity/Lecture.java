@@ -1,5 +1,7 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.enums.LectureDayOfWeek;
+import com.example.back404.teamproject.dto.lecture.request.LectureUpdateRequestDto;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +19,11 @@ public class Lecture extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lecture_id")
-    private Long id;
+    private Long lectureId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
@@ -27,19 +33,30 @@ public class Lecture extends BaseTimeEntity {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lecture_day_of_week", nullable = false)
+    private LectureDayOfWeek dayOfWeek;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "classroom_id", nullable = false)
     private Classroom classroom;
 
-    @Column(name = "day_of_week", nullable = false)
-    private String dayOfWeek; // 예: MONDAY, TUESDAY
-
     @Column(name = "period", nullable = false)
     private int period; // 교시 (예: 1교시, 2교시)
 
-    @Column(name = "max_students", nullable = false)
-    private int maxStudents;
+    @Column(name = "lecture_allowed_grade", nullable = false)
+    private int allowedGrade;
+
+    @Column(name = "lecture_max_enrollment", nullable = false)
+    private Integer maxEnrollment;
 
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseRegistration> courseRegistrations;
+
+    public void updateInfo(Teacher teacher, LectureUpdateRequestDto dto) {
+        this.teacherId = teacher;
+        this.dayOfWeek = dto.getDayOfWeek();
+        this.period = dto.getPeriod();
+        this.maxEnrollment = dto.getMaxEnrollment();
+    }
 }

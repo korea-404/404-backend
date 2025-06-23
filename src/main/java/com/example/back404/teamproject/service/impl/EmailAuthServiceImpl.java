@@ -18,7 +18,7 @@ public class EmailAuthServiceImpl implements EmailAuthService {
 
     @Override
     public void sendVerificationLink(String email) {
-        String token = jwtProvider.generateEmailToken(email); // ✅ 정확한 메서드명
+        String token = jwtProvider.generateEmailToken(email);
         String link = "http://localhost:8080/api/auth/verify-email?token=" + token;
 
         try {
@@ -37,6 +37,6 @@ public class EmailAuthServiceImpl implements EmailAuthService {
 
     @Override
     public boolean verifyToken(String token) {
-        return jwtProvider.isValidToken(token); // ✅ 정확한 메서드명
+        return jwtProvider.isValidToken(token);
     }
 }

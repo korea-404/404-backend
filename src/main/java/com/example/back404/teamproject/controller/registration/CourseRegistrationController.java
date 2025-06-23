@@ -3,7 +3,7 @@ package com.example.back404.teamproject.controller.registration;
 import com.example.back404.teamproject.dto.registration.request.CourseRegistrationRequestDto;
 import com.example.back404.teamproject.dto.registration.response.CourseRegistrationResponseDto;
 import com.example.back404.teamproject.provider.JwtProvider;
-import com.example.back404.teamproject.service.CourseRegistrationService;
+import com.example.back404.teamproject.service.impl.CourseRegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

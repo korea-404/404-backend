@@ -1,4 +1,4 @@
-package com.example.back404.teamproject.service;
+package com.example.back404.teamproject.service.impl;
 
 import com.example.back404.teamproject.common.enums.StudentStatus;
 import com.example.back404.teamproject.dto.auth.request.LoginRequestDto;
