@@ -1,7 +1,6 @@
 package com.example.back404.teamproject.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,18 +18,33 @@ public class EmailVerification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String token;
 
-    // 인증 여부
-    @Builder.Default
-    @Column(name = "is_verified", nullable = false)
-    private Boolean isVerified = false;
+    @Column(nullable = false)
+    private boolean isVerified;
 
-    @Column(name = "expiration_time", nullable = false)
-    private LocalDateTime expirationTime;
+    @Column(nullable = false)
+    private LocalDateTime expiresAt;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        if (!this.isVerified) this.isVerified = false;
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

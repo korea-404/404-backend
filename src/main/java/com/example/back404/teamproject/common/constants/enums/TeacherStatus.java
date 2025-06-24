@@ -1,8 +1,5 @@
 package com.example.back404.teamproject.common.constants.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum TeacherStatus {
     PENDING("승인 대기"),
     APPROVED("승인 완료"),
@@ -13,5 +10,9 @@ public enum TeacherStatus {
 
     TeacherStatus(String description) {
         this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

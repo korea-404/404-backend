@@ -1,11 +1,11 @@
 package com.example.back404.teamproject.service;
 
-import com.example.back404.teamproject.dto.ResponseDto;
-import com.example.back404.teamproject.dto.auth.SchoolApplicationRequestDto;
+import com.example.back404.teamproject.common.ResponseDto;
+import com.example.back404.teamproject.dto.school.request.SchoolApplicationRequestDto;
 
 public interface SchoolApplicationService {
-    ResponseDto<Long> register(SchoolApplicationRequestDto requestDto);
-    ResponseDto<?> getById(Long id);
-
-    ResponseDto<String> approve(Long id);
+    ResponseDto<?> register(SchoolApplicationRequestDto dto);
+    ResponseDto<?> approve(Long id);
+    ResponseDto<?> reject(Long id);
 }
+

@@ -1,58 +1,51 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
+import com.example.back404.teamproject.common.constants.enums.SchoolStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@DynamicUpdate
-@Table(name = "school_application")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SchoolApplication extends BaseTimeEntity {
+public class SchoolApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "school_application_id")
     private Long id;
+
+    private String schoolName;
+    private String schoolAddress;
+    private String schoolContactNumber;
+
+    private String schoolAdminUsername;
+    private String schoolAdminPassword;
+    private String schoolAdminName;
+    private String schoolAdminBirthDate;
+    private String schoolAdminPhoneNumber;
+    private String schoolAdminEmail;
+
+    @Column(nullable = false)
+    private String schoolEmail;
+
+    private String applicationStartedDay;
+    private String applicationLimitedDay;
 
     @Column(name = "school_code", nullable = false, unique = true)
     private Integer schoolCode;
 
-    @Column(name = "school_name", nullable = false)
-    private String schoolName;
-
-    @Column(name = "school_address", nullable = false)
-    private String schoolAddress;
-
-    @Column(name = "school_contact_number", nullable = false)
-    private String schoolContactNumber;
-
-    @Column(name = "school_admin_name", nullable = false)
-    private String schoolAdminName;
-
-    @Column(name = "school_admin_phone_number", nullable = false)
-    private String schoolAdminPhoneNumber;
-
-    @Column(name = "school_admin_email", nullable = false)
-    private String schoolAdminEmail;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private ApplicationStatus status;
+    @Column(name = "status")
+    @Builder.Default
+    private SchoolStatus status = SchoolStatus.PENDING;
 
-    public void approve() {
-        this.status = ApplicationStatus.APPROVED;
+    public void updateStatus(SchoolStatus newStatus) {
+        this.status = newStatus;
     }
 
-    public void reject() {
-        this.status = ApplicationStatus.REJECTED;
-    }
-
-    public enum ApplicationStatus {
-        PENDING, APPROVED, REJECTED
+    public Long getSchoolApplicationId() {
+        return this.id;
     }
 }

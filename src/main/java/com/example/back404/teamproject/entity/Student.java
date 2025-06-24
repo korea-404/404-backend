@@ -1,21 +1,21 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.TeacherStatus;
+import com.example.back404.teamproject.common.constants.enums.StudentStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "teacher")
+@Table(name = "student")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Teacher extends BaseTimeEntity {
+public class Student extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "teacher_id", nullable = false, updatable = false)
+    @Column(name = "student_id", nullable = false, updatable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,13 +23,13 @@ public class Teacher extends BaseTimeEntity {
     private School school;
 
     @Column(nullable = false)
-    private String teacherName;
+    private String studentName;
 
     @Column(nullable = false, unique = true)
-    private String teacherUsername;
+    private String studentUsername;
 
     @Column(nullable = false)
-    private String teacherPassword;
+    private String studentPassword;
 
     @Column(nullable = false)
     private String email;
@@ -39,9 +39,9 @@ public class Teacher extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TeacherStatus status;
+    private StudentStatus status;
 
-    public void setStatus(TeacherStatus status) {
+    public void setStatus(StudentStatus status) {
         this.status = status;
     }
 }

@@ -1,75 +1,66 @@
 package com.example.back404.teamproject.service.implementations;
 
-import com.example.back404.teamproject.provider.JwtProvider;
+import com.example.back404.teamproject.common.ResponseDto;
+import com.example.back404.teamproject.dto.mail.request.SendMailRequestDto;
+import com.example.back404.teamproject.entity.EmailVerification;
+import com.example.back404.teamproject.repository.EmailVerificationRepository;
 import com.example.back404.teamproject.service.MailService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    private final JavaMailSender javaMailSender;
-    private final JwtProvider jwtProvider;
+    private final EmailVerificationRepository emailVerificationRepository;
+    private final JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
-    private String senderEmail;
+    @Override
+    @Transactional
+    public ResponseDto<?> sendVerificationMail(SendMailRequestDto dto) {
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(30);
 
-    private MimeMessage createVerificationMail(String email, String token) throws MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(senderEmail);
-        message.setRecipients(MimeMessage.RecipientType.TO, email);
-        message.setSubject("학교 관리자 이메일 인증");
+        emailVerificationRepository.save(EmailVerification.builder()
+                .email(dto.getEmail())
+                .token(token)
+                .expiresAt(expiresAt)
+                .isVerified(false)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build());
 
-        String body = """
-                <h2>학교 관리자 이메일 인증</h2>
-                <p>아래 링크를 클릭하여 이메일 인증을 완료해주세요:</p>
-                <a href=\"http://localhost:8080/api/v1/auth/verify-email?token=%s\">이메일 인증 링크</a>
-                """.formatted(token);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(dto.getEmail());
+        message.setSubject("이메일 인증 요청");
+        message.setText("다음 링크를 클릭하여 이메일을 인증하세요:\n" +
+                "http://localhost:5173/email/verify?email=" + dto.getEmail() + "&token=" + token);
 
-        message.setText(body, "UTF-8", "html");
-        return message;
+        mailSender.send(message);
+        return ResponseDto.setSuccess("이메일 전송 완료", null);
     }
 
     @Override
-    public void sendVerificationMessage(String email) {
-        try {
-            String token = jwtProvider.generateEmailValidToken(email);
-            MimeMessage message = createVerificationMail(email, token);
-            javaMailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("인증 메일 전송 실패: " + e.getMessage());
+    @Transactional
+    public ResponseDto<?> verifyEmailToken(String email, String token) {
+        EmailVerification verification = emailVerificationRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 인증 요청이 없습니다."));
+
+        if (verification.isVerified()) {
+            return ResponseDto.setFailed("이미 인증된 이메일입니다.");
         }
-    }
 
-    @Override
-    public Mono<ResponseEntity<String>> sendSimpleMessage(String email) {
-        return Mono.fromCallable(() -> {
-            String token = jwtProvider.generateEmailValidToken(email);
-            MimeMessage message = createVerificationMail(email, token);
-            javaMailSender.send(message);
-            return ResponseEntity.ok("인증 이메일이 전송되었습니다.");
-        }).onErrorResume(e -> Mono.just(
-                ResponseEntity.badRequest().body("이메일 전송 실패: " + e.getMessage()))
-        ).subscribeOn(Schedulers.boundedElastic());
-    }
+        if (!verification.getToken().equals(token) || verification.getExpiresAt().isBefore(LocalDateTime.now())) {
+            return ResponseDto.setFailed("유효하지 않거나 만료된 토큰입니다.");
+        }
 
-    @Override
-    public Mono<ResponseEntity<String>> verifyEmail(String token) {
-        return Mono.fromCallable(() -> {
-            String email = jwtProvider.getUsernameFromJwt(token);
-            return ResponseEntity.ok("이메일 인증 완료: " + email);
-        }).onErrorResume(e -> {
-            e.printStackTrace();
-            return Mono.just(ResponseEntity.badRequest()
-                    .body("이메일 인증 실패: " + e.getMessage()));
-        }).subscribeOn(Schedulers.boundedElastic());
+        verification.setVerified(true);
+        return ResponseDto.setSuccess("이메일 인증 완료", null);
     }
 }

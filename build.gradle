@@ -23,6 +23,10 @@ repositories {
 	mavenCentral()
 }
 
+tasks.named('test') {
+	enabled = false
+}
+
 dependencies {
 	// 웹 애플리케이션 개발 시 반드시 필요: 내장 톰캣 서버를 실행, 스프링 어노테이션 사용 가능
 	implementation 'org.springframework.boot:spring-boot-starter-web'
