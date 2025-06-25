@@ -8,4 +8,3 @@ public interface SchoolApplicationService {
     ResponseDto<?> approve(Long id);
     ResponseDto<?> reject(Long id);
 }
-

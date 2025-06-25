@@ -9,4 +9,3 @@ public interface SchoolAuthService {
     ResponseDto<?> signIn(UserSignInRequestDto dto);
     ResponseDto<?> changeAdmin(Long schoolId, SchoolSignUpRequestDto dto);
 }
-

@@ -7,4 +7,3 @@ public interface SchoolService {
     ResponseDto<?> getSchoolInfo(Long id);
     ResponseDto<?> updateSchoolInfo(Long id, SchoolUpdateRequestDto dto);
 }
-

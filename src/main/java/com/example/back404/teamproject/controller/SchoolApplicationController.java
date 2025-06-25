@@ -21,13 +21,11 @@ public class SchoolApplicationController {
 
     @PutMapping("/{id}/approve")
     public ResponseEntity<?> approve(@PathVariable Long id) {
-        System.out.println("Approve 진입: id = " + id);
         return ResponseEntity.ok(schoolApplicationService.approve(id));
     }
 
     @PutMapping("/{id}/reject")
     public ResponseEntity<?> reject(@PathVariable Long id) {
-        System.out.println("Reject 진입: id = " + id);
         return ResponseEntity.ok(schoolApplicationService.reject(id));
     }
 }

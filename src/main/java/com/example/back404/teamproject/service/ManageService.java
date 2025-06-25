@@ -10,4 +10,3 @@ public interface ManageService {
     ResponseDto<?> deleteTeacher(Long id);
     ResponseDto<?> deleteStudent(Long id);
 }
-

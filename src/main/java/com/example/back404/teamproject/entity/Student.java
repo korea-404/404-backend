@@ -1,9 +1,12 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.StudentStatus;
+import com.example.back404.teamproject.common.enums.StudentStatus;
+import com.example.back404.teamproject.common.enums.SubjectAffiliation;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "student")
@@ -15,31 +18,39 @@ public class Student extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "student_id", nullable = false, updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", nullable = false)
-    private School school;
+    private String username;
 
-    @Column(nullable = false)
-    private String studentName;
+    private String password;
 
-    @Column(nullable = false, unique = true)
-    private String studentUsername;
+    private String studentNumber;
 
-    @Column(nullable = false)
-    private String studentPassword;
+    private String name;
 
-    @Column(nullable = false)
+    private int grade;
+
     private String email;
 
-    @Column(nullable = false)
     private String phoneNumber;
 
+    private LocalDate birthDate;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    private SubjectAffiliation affiliation;
+
+    private int admissionYear;
+
+    private String gender;
+
+    @Enumerated(EnumType.STRING)
     private StudentStatus status;
+
+    public void update(String name, String phoneNumber, String email) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 
     public void setStatus(StudentStatus status) {
         this.status = status;

@@ -1,6 +1,6 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.TeacherStatus;
+import com.example.back404.teamproject.common.enums.TeacherStatus;
 import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,30 +15,19 @@ public class Teacher extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "teacher_id", nullable = false, updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", nullable = false)
-    private School school;
+    private String name;
 
-    @Column(nullable = false)
-    private String teacherName;
-
-    @Column(nullable = false, unique = true)
-    private String teacherUsername;
-
-    @Column(nullable = false)
-    private String teacherPassword;
-
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String phoneNumber;
 
+    private String username;
+
+    private String password;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TeacherStatus status;
 
     public void setStatus(TeacherStatus status) {

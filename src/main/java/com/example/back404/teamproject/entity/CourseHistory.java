@@ -1,5 +1,6 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class CourseHistory {
+public class CourseHistory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +21,13 @@ public class CourseHistory {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @Column(nullable = false)
-    private String subjectName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id", nullable = false)
+    private Lecture lecture;
 
-    @Column(nullable = false)
+    @Column(name = "completion_status")
+    private String completionStatus;
+
+    @Column(name = "grade")
     private String grade;
-
-    @Column(nullable = false)
-    private String semester;
-
-    @Column(nullable = false)
-    private boolean completed;
 }

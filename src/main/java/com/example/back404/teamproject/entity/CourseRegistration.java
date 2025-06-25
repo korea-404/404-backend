@@ -1,5 +1,7 @@
 package com.example.back404.teamproject.entity;
 
+import com.example.back404.teamproject.common.enums.CourseRegistrationStatus;
+import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class CourseRegistration {
+public class CourseRegistration extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +23,11 @@ public class CourseRegistration {
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
+    @JoinColumn(name = "lecture_id", nullable = false)
+    private Lecture lecture;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", nullable = false)
-    private School school;
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String subjectName;
-
-    @Column(nullable = false)
-    private String semester;
+    @Builder.Default
+    private CourseRegistrationStatus status = CourseRegistrationStatus.CONFIRMED;
 }
