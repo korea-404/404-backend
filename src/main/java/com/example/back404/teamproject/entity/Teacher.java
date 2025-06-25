@@ -1,7 +1,5 @@
 package com.example.back404.teamproject.entity;
 
-import com.example.back404.teamproject.common.constants.enums.TeacherStatus;
-import com.example.back404.teamproject.entity.datatime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,15 +9,13 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Teacher extends BaseTimeEntity {
-
+public class Teacher {
     @Id
     @Column(name = "teacher_id")
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id", nullable = false)
-    private School school;
+    @Column(name = "school_id", nullable = false)
+    private Long schoolId;
 
     @Column(name = "teacher_username", unique = true, nullable = false)
     private String username;
@@ -41,47 +37,44 @@ public class Teacher extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "teacher_status", nullable = false)
-    private TeacherStatus status = TeacherStatus.PENDING;
+    private TeacherStatus status;
 
+    public void update(String name, String email, String phoneNumber, String subject) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.subject = subject;
+    }
 
-//    // 교사의 개인 정보(이메일, 전화번호, 담당 과목)를 수정
-//    public void updateInfo(String email, String phoneNumber, String subject) {
-//        this.email = email;
-//        this.phoneNumber = phoneNumber;
-//        this.subject = subject;
-//    }
-//
-//    // 비밀번호를 변경
-//    public void changePassword(String newPassword) {
-//        this.password = newPassword;
-//    }
-//
-//    // 가입 신청을 승인하여 '재직' 상태로 변경
-//    public void approve() {
-//        if (this.status != TeacherStatus.PENDING) {
-//            throw new IllegalStateException("승인 대기 상태의 교사만 승인할 수 있습니다.");
-//        }
-//        this.status = TeacherStatus.APPROVED;
-//    }
-//
-//    // '재직' 상태의 교사를 '휴직' 상태로 변경
-//    public void takeLeave() {
-//        if (this.status != TeacherStatus.APPROVED) {
-//            throw new IllegalStateException("재직 중인 교사만 휴직 처리할 수 있습니다.");
-//        }
-//        this.status = TeacherStatus.ON_LEAVE;
-//    }
-//
-//    // '휴직' 상태의 교사를 '재직' 상태로 복직
-//    public void reinstate() {
-//        if (this.status != TeacherStatus.ON_LEAVE) {
-//            throw new IllegalStateException("휴직 중인 교사만 복직 처리할 수 있습니다.");
-//        }
-//        this.status = TeacherStatus.APPROVED;
-//    }
-//
-//    // 교사를 '퇴직' 상태로 변경
-//    public void retire() {
-//        this.status = TeacherStatus.RETIRED;
-//    }
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }
+
+
+
+
+
+
+
+//package com.example.back404.teamproject.entity;
+//
+//import jakarta.persistence.*;
+//import lombok.*;
+//
+//@Entity
+//@Table(name = "teacher")
+//@Getter
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@AllArgsConstructor
+//@Builder
+//public class Teacher {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "teacher_id")
+//    private Long id;
+//
+//    @Column(name = "teacher_name", nullable = false)
+//    private String name;
+//}
