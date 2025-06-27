@@ -1,8 +1,5 @@
 package com.example.back404.teamproject.common.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum NoticeTargetAudience {
     ALL("전체"),
     STUDENT("학생"),
@@ -12,5 +9,9 @@ public enum NoticeTargetAudience {
 
     NoticeTargetAudience(String description) {
         this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
