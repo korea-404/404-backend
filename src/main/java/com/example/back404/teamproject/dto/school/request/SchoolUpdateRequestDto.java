@@ -1,3 +1,4 @@
+
 package com.example.back404.teamproject.dto.school.request;
 
 import lombok.Getter;

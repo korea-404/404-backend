@@ -1,8 +1,9 @@
 package com.example.back404.teamproject.controller.schedule;
 
+import com.example.back404.teamproject.common.ApiMappingPattern;
 import com.example.back404.teamproject.dto.schedule.response.ScheduleResponseDto;
 import com.example.back404.teamproject.provider.JwtProvider;
-import com.example.back404.teamproject.service.impl.ScheduleService;
+import com.example.back404.teamproject.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/schedules")
+@RequestMapping(ApiMappingPattern.STUDENT_SCHEDULES) // 이제 정의됨
 @RequiredArgsConstructor
 public class ScheduleController {
 

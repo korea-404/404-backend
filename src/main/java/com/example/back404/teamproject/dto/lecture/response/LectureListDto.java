@@ -1,3 +1,4 @@
+
 package com.example.back404.teamproject.dto.lecture.response;
 
 import com.example.back404.teamproject.common.enums.LectureDayOfWeek;

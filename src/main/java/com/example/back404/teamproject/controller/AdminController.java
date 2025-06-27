@@ -2,7 +2,6 @@ package com.example.back404.teamproject.controller;
 
 import com.example.back404.teamproject.dto.school.request.SchoolInfoUpdateRequestDto;
 import com.example.back404.teamproject.dto.school.request.ChangePasswordRequestDto;
-import com.example.back404.teamproject.service.SchoolAdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.Year;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -17,42 +19,101 @@ import java.time.LocalDate;
 public class Student extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "student_id")
+    private String studentId;
 
-    private String username;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
 
-    private String password;
+    @Column(name = "student_username", unique = true, nullable = false)
+    private String studentUsername;
 
+    @Column(name = "student_password", nullable = false)
+    private String studentPassword;
+
+    @Column(name = "student_number", unique = true, nullable = false)
     private String studentNumber;
 
-    private String name;
+    @Column(name = "student_name", nullable = false)
+    private String studentName;
 
-    private int grade;
+    @Column(name = "student_grade", nullable = false)
+    private String studentGrade;
 
-    private String email;
+    @Column(name = "student_email", unique = true, nullable = false)
+    private String studentEmail;
 
-    private String phoneNumber;
+    @Column(name = "student_phone_number", nullable = false)
+    private String studentPhoneNumber;
 
-    private LocalDate birthDate;
-
-    @Enumerated(EnumType.STRING)
-    private SubjectAffiliation affiliation;
-
-    private int admissionYear;
-
-    private String gender;
+    @Column(name = "student_birth_date", nullable = false)
+    private LocalDate studentBirthDate;
 
     @Enumerated(EnumType.STRING)
-    private StudentStatus status;
+    @Column(name = "student_affiliation", nullable = false)
+    private SubjectAffiliation studentAffiliation;
 
-    public void update(String name, String phoneNumber, String email) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "student_status", nullable = false)
+    private StudentStatus studentStatus;
+
+    @Column(name = "student_admission_year", nullable = false)
+    private Year studentAdmissionYear;
+
+    // 관계 매핑
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseRegistration> courseRegistrations;
+
+    // 호환성을 위한 getter 메서드들 추가
+    public String getUsername() {
+        return this.studentUsername;
+    }
+
+    public String getName() {
+        return this.studentName;
+    }
+
+    public String getEmail() {
+        return this.studentEmail;
+    }
+
+    public String getPassword() {
+        return this.studentPassword;
+    }
+
+    public String getPhoneNumber() {
+        return this.studentPhoneNumber;
+    }
+
+    public LocalDate getBirthDate() {
+        return this.studentBirthDate;
+    }
+
+    public Long getId() {
+        return Long.parseLong(this.studentId);
+    }
+
+    // 업데이트 메서드들
+    public void update(String studentName, String studentPhoneNumber, String studentEmail) {
+        this.studentName = studentName;
+        this.studentPhoneNumber = studentPhoneNumber;
+        this.studentEmail = studentEmail;
+    }
+
+    public void setStudentStatus(StudentStatus studentStatus) {
+        this.studentStatus = studentStatus;
+    }
+
+    public void setStudentPassword(String studentPassword) {
+        this.studentPassword = studentPassword;
+    }
+
+    public void setPassword(String password) {
+        this.studentPassword = password;
     }
 
     public void setStatus(StudentStatus status) {
-        this.status = status;
+        this.studentStatus = status;
     }
 }

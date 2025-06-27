@@ -1,13 +1,13 @@
 package com.example.back404.teamproject.common.enums;
 
-public enum CourseRegistrationStatus {
-    PENDING("대기"),
-    CONFIRMED("확정"),
-    CANCELED("취소");
+public enum NoticeTargetAudience {
+    ALL("전체"),
+    STUDENT("학생"),
+    TEACHER("교사");
 
     private final String description;
 
-    CourseRegistrationStatus(String description) {
+    NoticeTargetAudience(String description) {
         this.description = description;
     }
 

@@ -1,48 +1,44 @@
 package com.example.back404.teamproject.controller.lecture;
 
 import com.example.back404.teamproject.common.ApiMappingPattern;
-import com.example.back404.teamproject.common.ResponseDto;
-import com.example.back404.teamproject.dto.lecture.request.LectureUpdateRequestDto;
-import com.example.back404.teamproject.dto.lecture.response.LectureDetailResponseDto;
-import com.example.back404.teamproject.dto.lecture.response.LectureListDto;
-import com.example.back404.teamproject.dto.lecture.response.LectureSimpleResponseDto;
-import com.example.back404.teamproject.service.LectureService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping(ApiMappingPattern.LECTURE_API)
 @RequiredArgsConstructor
 public class LectureController {
 
-    private final LectureService lectureService;
-
-    @GetMapping
-    public ResponseEntity<List<LectureSimpleResponseDto>> getLectureList() {
-        return ResponseEntity.ok(lectureService.getAllLectures());
+    // 강의 등록/관리 (교사용)
+    @GetMapping("/teacher/lectures")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> getMyLectures() {
+        return ResponseEntity.ok("내 강의 목록");
     }
 
-    @GetMapping("/{lectureId}")
-    public ResponseEntity<LectureDetailResponseDto> getLectureDetail(@PathVariable Long lectureId) {
-        return ResponseEntity.ok(lectureService.getLectureDetail(lectureId));
+    @PostMapping("/teacher/lectures")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> createLecture(@RequestBody Object dto) {
+        return ResponseEntity.ok("강의 등록");
     }
 
-    @PutMapping("/{lectureId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<LectureListDto>> updateLecture(
-            @PathVariable Long lectureId,
-            @Valid @RequestBody LectureUpdateRequestDto requestDto) {
-        return ResponseEntity.ok(lectureService.updateLecture(lectureId, requestDto));
+    @PutMapping("/teacher/lectures/{lectureId}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> updateLecture(@PathVariable Long lectureId, @RequestBody Object dto) {
+        return ResponseEntity.ok("강의 수정");
     }
 
-    @DeleteMapping("/{lectureId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ResponseDto<?>> deleteLecture(@PathVariable Long lectureId) {
-        return ResponseEntity.ok(lectureService.deleteLecture(lectureId));
+    // 강의 열람 (학생용)
+    @GetMapping("/student/lectures")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<?> getAllLectures() {
+        return ResponseEntity.ok("강의 목록 조회");
+    }
+
+    @GetMapping("/student/lectures/{lectureId}")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<?> getLectureDetail(@PathVariable Long lectureId) {
+        return ResponseEntity.ok("강의 상세 조회");
     }
 }

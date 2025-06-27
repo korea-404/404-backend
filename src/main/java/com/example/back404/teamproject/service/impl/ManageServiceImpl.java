@@ -47,7 +47,8 @@ public class ManageServiceImpl implements ManageService {
     @Transactional
     public ResponseDto<?> updateStudentStatus(StudentStatusUpdateRequestDto dto) {
         try {
-            Student student = studentRepository.findById(dto.getStudentId())
+            // Long을 String으로 변환
+            Student student = studentRepository.findById(String.valueOf(dto.getStudentId()))
                     .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
 
             StudentStatus status = StudentStatus.valueOf(dto.getStatus().toUpperCase());
@@ -83,10 +84,12 @@ public class ManageServiceImpl implements ManageService {
     @Transactional
     public ResponseDto<?> deleteStudent(Long id) {
         try {
-            if (!studentRepository.existsById(id)) {
+            // Long을 String으로 변환
+            String studentId = String.valueOf(id);
+            if (!studentRepository.existsById(studentId)) {
                 return ResponseDto.setFailed("학생을 찾을 수 없습니다.");
             }
-            studentRepository.deleteById(id);
+            studentRepository.deleteById(studentId);
             return ResponseDto.setSuccess("학생 삭제 완료", null);
         } catch (Exception e) {
             return ResponseDto.setFailed("학생 삭제 중 오류가 발생했습니다.");

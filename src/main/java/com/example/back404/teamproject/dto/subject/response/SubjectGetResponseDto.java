@@ -12,9 +12,9 @@ public class SubjectGetResponseDto {
     private String subjectId;
     private Long schoolId;
     private String subjectName;
-    private String grade;
-    private String semester;
-    private SubjectAffiliation affiliation;
-    private SubjectStatus status;
-    private Integer maxEnrollment;
+    private String subjectGrade;
+    private String subjectSemester;
+    private SubjectAffiliation subjectAffiliation;
+    private SubjectStatus subjectStatus;
+    private Integer subjectMaxEnrollment;
 }

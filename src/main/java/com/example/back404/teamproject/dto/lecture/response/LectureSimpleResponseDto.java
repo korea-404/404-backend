@@ -1,3 +1,4 @@
+
 package com.example.back404.teamproject.dto.lecture.response;
 
 import lombok.Builder;

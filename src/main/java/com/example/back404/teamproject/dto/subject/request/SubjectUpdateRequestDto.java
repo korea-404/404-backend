@@ -1,3 +1,4 @@
+
 package com.example.back404.teamproject.dto.subject.request;
 
 import com.example.back404.teamproject.common.enums.SubjectAffiliation;

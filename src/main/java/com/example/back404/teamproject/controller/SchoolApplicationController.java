@@ -1,31 +1,23 @@
 package com.example.back404.teamproject.controller;
 
-import com.example.back404.teamproject.dto.school.request.SchoolApplicationRequestDto;
-import com.example.back404.teamproject.service.SchoolApplicationService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/school-application")
+@RequestMapping("/api/v1/school-applications")
 @RequiredArgsConstructor
 public class SchoolApplicationController {
 
-    private final SchoolApplicationService schoolApplicationService;
-
+    // POST /api/v1/school-applications
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody @Valid SchoolApplicationRequestDto dto) {
-        return ResponseEntity.ok(schoolApplicationService.register(dto));
+    public ResponseEntity<?> createSchoolApplication(@RequestBody Object dto) {
+        return ResponseEntity.ok("학교 신청 완료");
     }
 
-    @PutMapping("/{id}/approve")
-    public ResponseEntity<?> approve(@PathVariable Long id) {
-        return ResponseEntity.ok(schoolApplicationService.approve(id));
-    }
-
-    @PutMapping("/{id}/reject")
-    public ResponseEntity<?> reject(@PathVariable Long id) {
-        return ResponseEntity.ok(schoolApplicationService.reject(id));
+    // GET /api/v1/school-applications?status=pending
+    @GetMapping
+    public ResponseEntity<?> getSchoolApplications(@RequestParam(required = false) String status) {
+        return ResponseEntity.ok("학교 신청 목록");
     }
 }

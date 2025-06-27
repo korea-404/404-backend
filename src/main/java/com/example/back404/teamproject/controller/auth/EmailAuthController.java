@@ -14,6 +14,10 @@ public class EmailAuthController {
 
     private final EmailAuthService emailAuthService;
 
+    public EmailAuthController(EmailAuthService emailAuthService) {
+        this.emailAuthService = emailAuthService;
+    }
+
     @PostMapping("/send-code")
     public ResponseEntity<String> sendEmail(@Valid @RequestBody EmailSendRequestDto request) {
         emailAuthService.sendVerificationLink(request.getEmail());

@@ -1,7 +1,7 @@
 package com.example.back404.teamproject.controller.auth;
 
 import com.example.back404.teamproject.dto.auth.request.LoginRequestDto;
-import com.example.back404.teamproject.service.impl.StudentAuthService;
+import com.example.back404.teamproject.service.StudentAuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

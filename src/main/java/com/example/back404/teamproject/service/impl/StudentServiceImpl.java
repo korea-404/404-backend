@@ -7,21 +7,24 @@ import com.example.back404.teamproject.dto.student.request.StudentUpdateRequestD
 import com.example.back404.teamproject.dto.student.response.StudentInfoResponseDto;
 import com.example.back404.teamproject.entity.Student;
 import com.example.back404.teamproject.repository.StudentRepository;
+import com.example.back404.teamproject.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeParseException;
 
 @Service
 @RequiredArgsConstructor
-public class StudentService {
+public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Override
     @Transactional
     public void signUp(StudentSignUpRequestDto request) {
         if (studentRepository.existsByUsername(request.getUsername())) {
@@ -44,23 +47,24 @@ public class StudentService {
         }
 
         Student student = Student.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .studentId("S" + System.currentTimeMillis())
+                .studentUsername(request.getUsername())
+                .studentPassword(passwordEncoder.encode(request.getPassword()))
                 .studentNumber(request.getStudentNumber())
-                .name(request.getName())
-                .grade(request.getGrade())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .birthDate(birth)
-                .affiliation(request.getAffiliation())
-                .status(StudentStatus.PENDING)
-                .admissionYear(request.getAdmissionYear())
-                .gender(request.getGender())
+                .studentName(request.getName())
+                .studentGrade(String.valueOf(request.getGrade()))
+                .studentEmail(request.getEmail())
+                .studentPhoneNumber(request.getPhoneNumber())
+                .studentBirthDate(birth)
+                .studentAffiliation(request.getAffiliation())
+                .studentStatus(StudentStatus.PENDING)
+                .studentAdmissionYear(Year.of(request.getAdmissionYear()))
                 .build();
 
         studentRepository.save(student);
     }
 
+    @Override
     public Student login(LoginRequestDto request) {
         Student student = studentRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
@@ -72,15 +76,17 @@ public class StudentService {
         return student;
     }
 
+    @Override
     public StudentInfoResponseDto getStudentInfo(Long studentId) {
-        Student student = studentRepository.findById(studentId)
+        Student student = studentRepository.findById(String.valueOf(studentId))
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
         return StudentInfoResponseDto.from(student);
     }
 
+    @Override
     @Transactional
     public void updateStudentInfo(Long studentId, StudentUpdateRequestDto request) {
-        Student student = studentRepository.findById(studentId)
+        Student student = studentRepository.findById(String.valueOf(studentId))
                 .orElseThrow(() -> new IllegalArgumentException("학생을 찾을 수 없습니다."));
 
         student.update(

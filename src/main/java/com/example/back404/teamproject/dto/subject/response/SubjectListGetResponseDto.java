@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SubjectListGetResponseDto {
+    private String subjectId;
     private String subjectName;
-    private String grade;
-    private String semester;
-    private SubjectAffiliation affiliation;
+    private String subjectGrade;
+    private String subjectSemester;
+    private SubjectAffiliation subjectAffiliation;
 }

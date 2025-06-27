@@ -1,7 +1,6 @@
 package com.example.back404.teamproject.controller;
 
 import com.example.back404.teamproject.dto.school.request.SchoolUpdateRequestDto;
-import com.example.back404.teamproject.service.SchoolService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
